@@ -1,11 +1,10 @@
 import Head from "next/head";
-import Link from "next/link";
 import AppLayout from "../components/AppLayout";
 import Button from "../components/Button";
 import GithubIcon from "../components/Icon/GithubIcon";
 import { colors } from "../styles/theme";
 import { loginWithGithub, isUserSigned } from "../firebase/client";
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [user, setUser] = useState(undefined);
@@ -16,9 +15,7 @@ export default function Home() {
   useEffect(() => {
     isUserSigned(setUser);
   }, []);
-  useEffect(()=>{
-    console.log('user!',user)
-  },[user])
+
   return (
     <AppLayout>
       <div>

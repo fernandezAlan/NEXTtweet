@@ -1,5 +1,5 @@
-import style, { globalStyles } from "./style";
-export default function AppLayout({ children }) {
+import style, { globalStyles } from './style'
+export default function AppLayout ({ children }) {
   return (
     <>
       <div>
@@ -10,5 +10,5 @@ export default function AppLayout({ children }) {
         {globalStyles}
       </style>
     </>
-  );
+  )
 }

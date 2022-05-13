@@ -1,6 +1,6 @@
 import { colors } from "../../styles/theme";
 
-export default function ({ children, onClick }) {
+export default function Button({ children, onClick }) {
   return (
     <>
       <button onClick={onClick}>{children}</button>
@@ -9,14 +9,14 @@ export default function ({ children, onClick }) {
           display: flex;
           align-items: center;
           background-color: ${colors.black};
-          color:${colors.white};
+          color: ${colors.white};
           border-radius: 15px;
           padding: 10px;
           cursor: pointer;
           border: solid 1px #000;
         }
-        button > :global(svg){
-            margin-right:8px;
+        button > :global(svg) {
+          margin-right: 8px;
         }
         button:active {
           background-color: #323232;
