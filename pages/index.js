@@ -5,7 +5,7 @@ import GithubIcon from "../components/Icon/GithubIcon";
 import { colors } from "../styles/theme";
 import { loginWithGithub, isUserSigned } from "../firebase/client";
 import { useState, useEffect } from "react";
-
+import Avatar from "../components/Avatar";
 export default function Home() {
   const [user, setUser] = useState(undefined);
   const handleClick = async () => {
@@ -32,8 +32,7 @@ export default function Home() {
         )}
         {user && user.avatar ? (
           <div>
-            <img src={user.avatar} />
-            <strong>{user.username}</strong>
+            <Avatar src={user.avatar} alt={user.username} withText />
           </div>
         ) : null}
       </div>
