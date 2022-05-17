@@ -1,5 +1,7 @@
 import Avatar from "../Avatar/index";
-export default ({ avatar, username, message, id }) => {
+import { splitDate } from "../../utils";
+export default function Tweet({ avatar, username, message, id, date }) {
+  const { day, onlyDate } = splitDate(date);
   return (
     <>
       <article key={id}>
@@ -9,6 +11,7 @@ export default ({ avatar, username, message, id }) => {
         <div>
           <strong>{username}</strong>
           <p>{message}</p>
+          <time>{`${day},${onlyDate}`}</time>
         </div>
       </article>
       <style jsx>{`
@@ -22,4 +25,4 @@ export default ({ avatar, username, message, id }) => {
       `}</style>
     </>
   );
-};
+}

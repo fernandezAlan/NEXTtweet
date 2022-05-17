@@ -1,12 +1,11 @@
 import AppLayout from "../../components/AppLayout/index";
 import { useState, useEffect } from "react";
 import Tweet from "../../components/Tweet";
+import { getTweet } from "../../firebase/client";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/api/statuses/home_timeline")
-      .then((res) => res.json())
-      .then(setTimeline);
+    getTweet().then(setTimeline);
   }, []);
 
   return (
@@ -20,9 +19,10 @@ export default function HomePage() {
             <Tweet
               key={tweet.id}
               avatar={tweet.avatar}
-              message={tweet.message}
+              message={tweet.content}
               id={tweet.id}
               username={tweet.username}
+              date={tweet.createdAt}
             />
           ))}
         </section>
