@@ -36,6 +36,7 @@ export default function createTweet() {
       content: message,
       userId: user.uid,
       userName: user.username,
+      displayName: user.displayName,
     })
       .then(() => {
         setStatus(COMPOSE_STATE.SUCCESS);

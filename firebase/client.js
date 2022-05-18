@@ -12,7 +12,6 @@ import {
   Timestamp,
   getDocs,
 } from "firebase/firestore";
-import { formatDate } from "../utils";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCvfDk7XBYp6Kgn662U9-qrEzWhBMmFOEY",
@@ -27,12 +26,14 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const mapUserFromFirebaseAuth = (user) => {
-  const { photoURL, uid } = user;
+  console.log("user", user);
+  const { photoURL, uid, displayName } = user;
   const username = user.reloadUserInfo.screenName;
   return {
     avatar: photoURL,
     username,
     uid,
+    displayName,
   };
 };
 export const isUserSigned = (onChange) => {
@@ -55,7 +56,13 @@ export const loginWithGithub = async () => {
   }
 };
 
-export const addTweet = ({ avatar, content, userId, userName }) => {
+export const addTweet = ({
+  avatar,
+  content,
+  userId,
+  userName,
+  displayName,
+}) => {
   return addDoc(collection(db, "tweets"), {
     avatar,
     content,
@@ -64,6 +71,7 @@ export const addTweet = ({ avatar, content, userId, userName }) => {
     createdAt: Timestamp.now(),
     likeCounts: 0,
     shareCounts: 0,
+    displayName,
   });
 };
 
@@ -74,11 +82,9 @@ export const getTweet = () => {
         const results = snapshot.docs.map((doc) => {
           const data = doc.data();
           const id = doc.id;
-          const {createdAt} = data
           return {
             ...data,
             id,
-            createdAt:formatDate(createdAt.toDate())
           };
         });
         resolve(results);
