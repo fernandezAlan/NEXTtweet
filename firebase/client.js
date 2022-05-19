@@ -12,6 +12,13 @@ import {
   Timestamp,
   getDocs,
 } from "firebase/firestore";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+// import { storage }¿ from "firebase/storage";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCvfDk7XBYp6Kgn662U9-qrEzWhBMmFOEY",
@@ -24,9 +31,9 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const mapUserFromFirebaseAuth = (user) => {
-  console.log("user", user);
   const { photoURL, uid, displayName } = user;
   const username = user.reloadUserInfo.screenName;
   return {
@@ -62,6 +69,7 @@ export const addTweet = ({
   userId,
   userName,
   displayName,
+  downloadImageURL,
 }) => {
   return addDoc(collection(db, "tweets"), {
     avatar,
@@ -72,6 +80,7 @@ export const addTweet = ({
     likeCounts: 0,
     shareCounts: 0,
     displayName,
+    downloadImageURL,
   });
 };
 
@@ -91,4 +100,32 @@ export const getTweet = () => {
       })
       .catch((error) => reject(error));
   });
+};
+const imageOnload = (snapshot) => {
+  const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  console.log("Upload is " + progress + "% done");
+};
+const imageOnError = (error) => {
+  console.log("error at upload image:", error);
+};
+
+export const uploadImage = (file, callback) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const imagesRef = ref(storage, `images/${file.name}`);
+      const uploadTask = uploadBytesResumable(imagesRef, file);
+      uploadTask.on("state_changed", imageOnload, imageOnError, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadImageURL) => {
+          resolve(downloadImageURL);
+        });
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+  /*
+  const ref = firebase.storage().ref(`images/${file.name}`);
+  const task = ref.put(file);
+  return task;
+  */
 };

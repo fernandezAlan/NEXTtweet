@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import Tweet from "../../components/Tweet";
 import { getTweet } from "../../firebase/client";
 import { breakpoints } from "../../styles/theme";
+import Nav from "../../components/Nav";
+import useUser from "../../hooks/useUser";
+import Avatar from "../../components/Avatar";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
+  const { user } = useUser();
   useEffect(() => {
     getTweet().then(setTimeline);
   }, []);
@@ -13,7 +17,10 @@ export default function HomePage() {
     <>
       <AppLayout>
         <header>
-          <h2>inicio</h2>
+          <div>
+            <Avatar src={user?.avatar} size={"s"} />
+            <span>inicio</span>
+          </div>
         </header>
 
         <section>
@@ -26,12 +33,18 @@ export default function HomePage() {
               username={tweet.userName}
               date={tweet.createdAt}
               displayName={tweet.displayName}
+              downloadImageURL={tweet.downloadImageURL}
             />
           ))}
         </section>
-        <nav>nav</nav>
+        <Nav />
       </AppLayout>
       <style jsx>{`
+        div {
+          width: 30%;
+          display: flex;
+          justify-content: space-evenly;
+        }
         section {
           margin-top: 10vh;
         }
@@ -43,19 +56,13 @@ export default function HomePage() {
           width: 300px;
           display: flex;
           align-items: center;
+          background-color: white;
         }
-        h2 {
+        span {
           font-size: 21px;
-          font-weight: 800;
+          font-weight: 600;
         }
 
-        nav {
-          bottom: 0;
-          border-top: 1px solid #ccc;
-          position: fixed;
-          height: 49px;
-          width: 100%;
-        }
         @media (max-width: ${breakpoints.mobile}) {
           header {
             width: 100%;

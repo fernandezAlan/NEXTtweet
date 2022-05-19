@@ -1,6 +1,7 @@
 import Avatar from "../Avatar/index";
 import { getTimeAgo } from "../../utils";
 import IconsContainer from "../IconsContainer";
+import DeleteIcon from "../Icon/DeleteIcon";
 export default function Tweet({
   avatar,
   displayName = "usuario_desconocido",
@@ -8,6 +9,7 @@ export default function Tweet({
   message,
   id,
   date,
+  downloadImageURL,
 }) {
   return (
     <>
@@ -19,16 +21,22 @@ export default function Tweet({
               <p>{displayName}</p>
             </strong>
             <time>{getTimeAgo(date.toMillis())}</time>
-            <span>{"°°°"}</span>
+            <DeleteIcon />
           </div>
           <span>
             <p>{username && `@${username}`}</p>
           </span>
           <p>{message}</p>
+          {downloadImageURL && <img src={downloadImageURL} />}
+
           <IconsContainer />
         </section>
       </article>
       <style jsx>{`
+        img {
+          width: 100%;
+          border-radius: 15px;
+        }
         p {
           overflow: hidden;
           white-space: nowrap;
@@ -36,10 +44,12 @@ export default function Tweet({
           margin: 0;
         }
         strong {
+          width: 50%;
           font-size: 15px;
           font-weight: 600;
         }
         article {
+          margin-bottom: 25px;
           width: 100%;
           padding: 10px 15px;
           display: flex;

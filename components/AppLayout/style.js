@@ -33,7 +33,7 @@ export default css`
     background: #fff;
     border-radius: 10px;
     box-shadow: 0px 10px 25px rgb(0, 0, 0, 0.1);
-    height: 90%;
+    height: 100%;
     width: 300px;
   }
   @media (max-width: ${breakpoints.mobile}) {
