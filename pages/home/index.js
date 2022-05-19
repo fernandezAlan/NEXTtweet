@@ -47,6 +47,8 @@ export default function HomePage() {
         }
         section {
           margin-top: 10vh;
+          height: 90vh;
+          overflow-y: scroll;
         }
         header {
           border-bottom: 1px solid #ccc;

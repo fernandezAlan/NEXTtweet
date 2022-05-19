@@ -110,7 +110,9 @@ export default function createTweet() {
         <>
           <form onSubmit={handleSubmit}>
             <div>
-              <Avatar src={user.avatar} alt={user.username} />
+              <div className="avatar_container">
+                <Avatar src={user.avatar} alt={user.username} />
+              </div>
               <section>
                 <textarea
                   placeholder="¿qué está pasando?"
@@ -168,6 +170,10 @@ export default function createTweet() {
           display: flex;
           width: 100%;
           justify-content: space-evenly;
+        }
+        .avatar_container {
+          margin-top: 10vh;
+          width: auto;
         }
         textarea {
           margin-top: 10vh;
