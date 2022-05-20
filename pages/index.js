@@ -1,5 +1,4 @@
 import Head from "next/head";
-import AppLayout from "../components/AppLayout";
 import Button from "../components/Button";
 import GithubIcon from "../components/Icon/GithubIcon";
 import { colors } from "../styles/theme";
@@ -16,7 +15,7 @@ export default function Home() {
   }, [user]);
 
   return (
-    <AppLayout>
+    <>
       <div>
         <Head>
           <title>devTeet</title>
@@ -61,6 +60,6 @@ export default function Home() {
           color: gray;
         }
       `}</style>
-    </AppLayout>
+    </>
   );
 }

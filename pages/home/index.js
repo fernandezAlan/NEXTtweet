@@ -1,9 +1,7 @@
-import AppLayout from "../../components/AppLayout/index";
 import { useState, useEffect } from "react";
 import Tweet from "../../components/Tweet";
 import { getTweet } from "../../firebase/client";
 import { breakpoints } from "../../styles/theme";
-import Nav from "../../components/Nav";
 import useUser from "../../hooks/useUser";
 import Avatar from "../../components/Avatar";
 export default function HomePage() {
@@ -15,30 +13,27 @@ export default function HomePage() {
 
   return (
     <>
-      <AppLayout>
-        <header>
-          <div>
-            <Avatar src={user?.avatar} size={"s"} />
-            <span>inicio</span>
-          </div>
-        </header>
+      <header>
+        <div>
+          <Avatar src={user?.avatar} size={"s"} />
+          <span>inicio</span>
+        </div>
+      </header>
 
-        <section>
-          {timeline.map((tweet) => (
-            <Tweet
-              key={tweet.id}
-              avatar={tweet.avatar}
-              message={tweet.content}
-              id={tweet.id}
-              username={tweet.userName}
-              date={tweet.createdAt}
-              displayName={tweet.displayName}
-              downloadImageURL={tweet.downloadImageURL}
-            />
-          ))}
-        </section>
-        <Nav />
-      </AppLayout>
+      <section>
+        {timeline.map((tweet) => (
+          <Tweet
+            key={tweet.id}
+            avatar={tweet.avatar}
+            message={tweet.content}
+            id={tweet.id}
+            username={tweet.userName}
+            date={tweet.createdAt}
+            displayName={tweet.displayName}
+            downloadImageURL={tweet.downloadImageURL}
+          />
+        ))}
+      </section>
       <style jsx>{`
         div {
           width: 30%;

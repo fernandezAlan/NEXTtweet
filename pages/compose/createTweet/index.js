@@ -1,11 +1,9 @@
-import AppLayout from "../../../components/AppLayout";
 import Button from "../../../components/Button";
 import { useState, useEffect } from "react";
 import useUser from "../../../hooks/useUser";
 import Avatar from "../../../components/Avatar";
 import { addTweet, uploadImage } from "../../../firebase/client";
 import { useRouter } from "next/dist/client/router";
-import Nav from "../../../components/Nav";
 import { colors } from "../../../styles/theme";
 
 export default function createTweet() {
@@ -105,7 +103,7 @@ export default function createTweet() {
 
   // ------------------------------
   return (
-    <AppLayout>
+    <>
       {user && (
         <>
           <form onSubmit={handleSubmit}>
@@ -135,7 +133,6 @@ export default function createTweet() {
               <span>a ocurrido un error, vuelve a intentarlo</span>
             )}
           </form>
-          <Nav />
         </>
       )}
 
@@ -197,6 +194,6 @@ export default function createTweet() {
           align-items: center;
         }
       `}</style>
-    </AppLayout>
+    </>
   );
 }

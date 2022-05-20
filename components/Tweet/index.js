@@ -2,6 +2,8 @@ import Avatar from "../Avatar/index";
 import { getTimeAgo } from "../../utils";
 import IconsContainer from "../IconsContainer";
 import DeleteIcon from "../Icon/DeleteIcon";
+import Link from "next/link";
+import { useRouter } from "next/router";
 export default function Tweet({
   avatar,
   displayName = "usuario_desconocido",
@@ -11,6 +13,10 @@ export default function Tweet({
   date,
   downloadImageURL,
 }) {
+  const router = useRouter();
+  const handleTweetDetails = () => {
+    router.push(`/status/${id}`);
+  };
   return (
     <>
       <article key={id}>
@@ -20,26 +26,42 @@ export default function Tweet({
             <strong>
               <p>{displayName}</p>
             </strong>
-            <time>{getTimeAgo(date.toMillis())}</time>
+            <Link href={`/status/${id}`}>
+              <a>
+                <time>{getTimeAgo(date)}</time>
+              </a>
+            </Link>
             <DeleteIcon />
           </div>
           <span>
             <p>{username && `@${username}`}</p>
           </span>
-          <p>{message}</p>
-          {downloadImageURL && <img src={downloadImageURL} />}
+          <div className="content_container" onClick={handleTweetDetails}>
+            <p>{message}</p>
+            {downloadImageURL && <img src={downloadImageURL} />}
+          </div>
 
           <IconsContainer />
         </section>
       </article>
       <style jsx>{`
+        .content_container {
+          cursor: pointer;
+        }
+        a {
+          color: #555;
+          font-size: 14px;
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
         img {
           width: 100%;
           border-radius: 15px;
         }
         p {
           overflow: hidden;
-          white-space: nowrap;
           text-overflow: ellipsis;
           margin: 0;
         }

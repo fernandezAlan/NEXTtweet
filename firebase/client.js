@@ -44,7 +44,7 @@ const mapUserFromFirebaseAuth = (user) => {
   };
 };
 export const isUserSigned = (onChange) => {
-  const auth = getAuth();
+  const auth = getAuth(app);
   onAuthStateChanged(auth, (userData) => {
     if (userData) {
       const user = mapUserFromFirebaseAuth(userData);
@@ -90,6 +90,8 @@ export const getTweet = () => {
       .then((snapshot) => {
         const results = snapshot.docs.map((doc) => {
           const data = doc.data();
+          const { createdAt } = data;
+          data.createdAt = createdAt.toMillis();
           const id = doc.id;
           return {
             ...data,
