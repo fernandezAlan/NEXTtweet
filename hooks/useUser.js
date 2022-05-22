@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { isUserSigned, loginWithGithub } from "../firebase/client";
+import { isUserSigned, loginWithGithub } from "../firebase/client/client";
 import { useRouter } from "next/dist/client/router";
 const USER_STATES = {
   NOT_LOGGED: null,

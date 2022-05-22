@@ -2,6 +2,7 @@ export default function Avatar({ src, alt, text, withText, size = "m" }) {
   const SIZES = {
     s: "32px",
     m: "49px",
+    l: "78px",
   };
   return (
     <>
@@ -15,6 +16,7 @@ export default function Avatar({ src, alt, text, withText, size = "m" }) {
           flex-direction: column;
           justify-content: ${withText ? "center" : "flex-start"};
           align-items: center;
+          width: auto;
         }
         img {
           width: ${SIZES[size]};

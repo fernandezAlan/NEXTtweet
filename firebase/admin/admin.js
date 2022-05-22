@@ -1,9 +1,9 @@
 import { getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import admin from "firebase-admin";
 
-const admin = require("firebase-admin");
-const serviceAccount = require("./firebase-keys.json");
-let app = getApps()[0];
+const serviceAccount = require("../firebase-keys.json");
+export let app = getApps()[0];
 if (!app) {
   app = admin.initializeApp(
     {
@@ -13,4 +13,7 @@ if (!app) {
     "admin_app"
   );
 }
+
 export const firestore = getFirestore(app);
+export const tweetsRef = firestore.collection("tweets");
+// export const db = admin.getDatabase();

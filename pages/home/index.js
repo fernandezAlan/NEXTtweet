@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Tweet from "../../components/Tweet";
-import { getTweet } from "../../firebase/client";
+import { getTweet } from "../../firebase/client/client";
 import { breakpoints } from "../../styles/theme";
 import useUser from "../../hooks/useUser";
 import Avatar from "../../components/Avatar";

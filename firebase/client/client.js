@@ -11,6 +11,8 @@ import {
   addDoc,
   Timestamp,
   getDocs,
+  // orderBy,
+  // onSnapshot
 } from "firebase/firestore";
 import {
   getStorage,
@@ -29,9 +31,9 @@ const firebaseConfig = {
   appId: "1:95783529278:web:763c2c2a61292e557eda6f",
   measurementId: "G-QP5JQJYX0Y",
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 const mapUserFromFirebaseAuth = (user) => {
   const { photoURL, uid, displayName } = user;
@@ -125,9 +127,4 @@ export const uploadImage = (file, callback) => {
       reject(error);
     }
   });
-  /*
-  const ref = firebase.storage().ref(`images/${file.name}`);
-  const task = ref.put(file);
-  return task;
-  */
 };
