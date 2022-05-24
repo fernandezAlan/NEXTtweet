@@ -1,6 +1,17 @@
 import { colors } from "../../styles/theme";
 
-export default function Button({ disabled, children, onClick }) {
+export default function Button({
+  disabled,
+  children,
+  onClick,
+  color,
+  size = "M",
+}) {
+  const SIZES = {
+    S: "75px",
+    M: "100px",
+    L: "250px",
+  };
   return (
     <>
       <button onClick={onClick} disabled={disabled}>
@@ -10,12 +21,15 @@ export default function Button({ disabled, children, onClick }) {
         button {
           display: flex;
           align-items: center;
-          background-color: ${colors.black};
+          background-color: ${color};
           color: ${colors.white};
-          border-radius: 15px;
+          border-radius: 10px;
           padding: 10px;
           cursor: pointer;
-          border: solid 1px #000;
+          border: 0px;
+          width: ${SIZES[size]};
+          text-align: center;
+          margin-bottom: 15px;
         }
         button > :global(svg) {
           margin-right: 8px;

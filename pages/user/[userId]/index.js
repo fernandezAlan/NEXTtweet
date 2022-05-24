@@ -8,7 +8,7 @@ import {
   getTweetsByUserId,
   getUserById,
 } from "../../../firebase/admin/querys/tweetsQuerys";
-
+import { signOut } from "../../../firebase/client/auth";
 export default function Profile({ tweets, user }) {
   return (
     <>
@@ -20,6 +20,7 @@ export default function Profile({ tweets, user }) {
           <strong>Alan Fernandez</strong>
           <span>{`${tweets.length} tweets`}</span>
         </div>
+        <button onClick={signOut}>salir</button>
       </header>
       <Banner />
       <div className="avatar_container">

@@ -16,4 +16,7 @@ export const colors = {
   like: "rgb(249, 24, 128)",
   comend: "rgb(29, 155, 240)",
   share: "rgb(0, 186, 124)",
+  facebookColor: "#4267B2",
+  googleColor: "#DB4437",
+  githubColor: "#171515",
 };

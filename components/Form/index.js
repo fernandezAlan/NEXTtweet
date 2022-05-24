@@ -1,0 +1,115 @@
+import { useState } from "react";
+import Button from "../Button";
+import { colors } from "../../styles/theme";
+import Link from "next/link";
+
+export default function Form({ submitFunction, type }) {
+  const BUTTON_SIZE = {
+    REGISTER: "S",
+    LOGIN: "M",
+  };
+  const BUTTON_LABEL = {
+    REGISTER: "registrate",
+    LOGIN: "iniciar sesión",
+  };
+  const REDIRECT_URL = {
+    REGISTER: "/login",
+    LOGIN: "/register",
+  };
+  const REDIRECT_LABEL = {
+    REGISTER: "¿ya tienes cuenta?",
+    LOGIN: "¿aún no tienes una cuenta?",
+  };
+  const LINK_LABEL = {
+    REGISTER: "¡inicia sesion!",
+    LOGIN: "¡registrate!",
+  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setloading] = useState(false);
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    setloading(true);
+    event.preventDefault();
+    submitFunction({ email, password })
+      .then((result) => {
+        setError(false);
+        setloading(false);
+        console.log("result", result);
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setError(true);
+        setloading(false);
+      });
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">email</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={handleChangeEmail}
+        />
+        <label htmlFor="password">contraseña</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={handleChangePassword}
+        />
+        <div>
+          <Button
+            color={colors.primary}
+            size={BUTTON_SIZE[type]}
+            disabled={loading}
+          >
+            {BUTTON_LABEL[type]}
+          </Button>
+        </div>
+        <span>{REDIRECT_LABEL[type]}</span>
+        <Link href={REDIRECT_URL[type]}>
+          <a>{LINK_LABEL[type]}</a>
+        </Link>
+      </form>
+      {error && type === "LOGIN" ? (
+        <span className="error_message">
+          ¡el email o contraseña introducidos no coinciden! vuelve a intentar o
+          registrate por favor
+        </span>
+      ) : null}
+      <style jsx>{`
+        .error_message {
+          color: red;
+          padding: 15px;
+        }
+        a {
+          color: ${colors.primary};
+        }
+        div {
+          margin: 30px;
+        }
+        input {
+          height: 35px;
+          border-radius: 5px;
+          border: solid 1px ${error ? "red" : "gray"};
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+          width: 70%;
+          align-items: center;
+        }
+      `}</style>
+    </>
+  );
+}
