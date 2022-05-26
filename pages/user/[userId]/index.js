@@ -29,7 +29,7 @@ export default function Profile({ tweets, user }) {
       {user && (
         <ProfileInformation
           name={user.displayName}
-          username={tweets[0].userName}
+          username={tweets[0]?.userName}
           description={"developer fullstack"}
         />
       )}

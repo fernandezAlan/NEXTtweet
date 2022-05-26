@@ -113,10 +113,10 @@ const imageOnError = (error) => {
   console.log("error at upload image:", error);
 };
 
-export const uploadImage = (file, callback) => {
+export const uploadImage = ({ file, folder }) => {
   return new Promise((resolve, reject) => {
     try {
-      const imagesRef = ref(storage, `images/${file.name}`);
+      const imagesRef = ref(storage, `${folder}/${file.name}`);
       const uploadTask = uploadBytesResumable(imagesRef, file);
       uploadTask.on("state_changed", imageOnload, imageOnError, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadImageURL) => {

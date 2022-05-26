@@ -1,12 +1,6 @@
 import { colors } from "../../styles/theme";
 
-export default function Button({
-  disabled,
-  children,
-  onClick,
-  color,
-  size = "M",
-}) {
+export default function Button({ disabled, children, onClick, color, size }) {
   const SIZES = {
     S: "75px",
     M: "100px",
@@ -27,7 +21,7 @@ export default function Button({
           padding: 10px;
           cursor: pointer;
           border: 0px;
-          width: ${SIZES[size]};
+          width: ${size ? SIZES[size] : "auto"};
           text-align: center;
           margin-bottom: 15px;
         }

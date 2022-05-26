@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { isUserSigned, loginWithGithub } from "../firebase/client/client";
+import { isUserSigned } from "../firebase/client/auth";
 import { useRouter } from "next/dist/client/router";
 const USER_STATES = {
   NOT_LOGGED: null,
@@ -15,9 +15,15 @@ export default function useUser() {
   useEffect(() => {
     user === USER_STATES.NOT_LOGGED && router.push("/");
   });
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
+  /*
   const addNewUser = async () => {
     const newUser = await loginWithGithub();
     setUser(newUser);
   };
-  return { user, addNewUser, USER_STATES };
+  */
+
+  return { user, USER_STATES };
 }

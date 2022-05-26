@@ -9,14 +9,19 @@ import {
   githubProvider,
   facebookProvider,
 } from "../../firebase/client/auth";
+import { useRouter } from "next/dist/client/router";
 
 export default function ProvidersLoginCotainer() {
+  const router = useRouter();
+  const handleLogin = (loginProvider) => {
+    loginProvider.then(() => router.push("/home"));
+  };
   return (
     <>
       <Button
         color={colors.googleColor}
         size={"L"}
-        onClick={() => loginWithProvider(googleProvider)}
+        onClick={() => handleLogin(loginWithProvider(googleProvider))}
       >
         <GoogleIcon fill={"white"} />
         ingresar con con Google
@@ -24,7 +29,7 @@ export default function ProvidersLoginCotainer() {
       <Button
         color={colors.facebookColor}
         size={"L"}
-        onClick={() => loginWithProvider(facebookProvider)}
+        onClick={() => handleLogin(loginWithProvider(facebookProvider))}
       >
         <FacebookIcon fill={"white"} />
         ingresar con con Facebook
@@ -32,7 +37,7 @@ export default function ProvidersLoginCotainer() {
       <Button
         color={colors.githubColor}
         size={"L"}
-        onClick={() => loginWithProvider(githubProvider)}
+        onClick={() => handleLogin(loginWithProvider(githubProvider))}
       >
         <GithubIcon fill={"white"} />
         ingresar con con Github

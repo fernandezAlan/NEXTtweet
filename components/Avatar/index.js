@@ -22,6 +22,7 @@ export default function Avatar({ src, alt, text, withText, size = "m" }) {
           width: ${SIZES[size]};
           height: ${SIZES[size]};
           border-radius: 9999px;
+          object-fit: cover;
         }
       `}</style>
     </>

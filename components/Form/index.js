@@ -2,8 +2,9 @@ import { useState } from "react";
 import Button from "../Button";
 import { colors } from "../../styles/theme";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 export default function Form({ submitFunction, type }) {
+  // ----ENUM CONFIG-------
   const BUTTON_SIZE = {
     REGISTER: "S",
     LOGIN: "M",
@@ -24,14 +25,24 @@ export default function Form({ submitFunction, type }) {
     REGISTER: "¡inicia sesion!",
     LOGIN: "¡registrate!",
   };
+
+  const NEXT_PAGE = {
+    REGISTER: "/edit/profile",
+    LOGIN: "/home",
+  };
+  // ----USE STATE-------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setloading] = useState(false);
 
+  // ----USE ROUTER-------
+  const router = useRouter();
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
+
+  // ----HANDLE FUNCTIONS-------
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
   };
@@ -42,7 +53,7 @@ export default function Form({ submitFunction, type }) {
       .then((result) => {
         setError(false);
         setloading(false);
-        console.log("result", result);
+        router.push(NEXT_PAGE[type]);
       })
       .catch((error) => {
         console.log("error", error);
@@ -50,6 +61,8 @@ export default function Form({ submitFunction, type }) {
         setloading(false);
       });
   };
+
+  // --------------------------------
   return (
     <>
       <form onSubmit={handleSubmit}>

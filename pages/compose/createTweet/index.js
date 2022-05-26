@@ -45,7 +45,7 @@ export default function createTweet() {
     event.preventDefault();
     let downloadImageURL = null;
     if (file) {
-      downloadImageURL = await uploadImage(file);
+      downloadImageURL = await uploadImage({file,folder:"image"});
     }
     addTweet({
       avatar: user.avatar,

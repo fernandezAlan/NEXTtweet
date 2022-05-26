@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import Spinner from "../components/Spinner";
 export default function Home() {
-  const { user } = useUser();
+  const { user, USER_STATES } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
       router.replace("/home");
-    } else {
+    } else if (user === USER_STATES.NOT_LOGGED) {
       router.replace("/login");
     }
   }, [user]);

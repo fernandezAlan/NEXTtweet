@@ -7,6 +7,7 @@ import Avatar from "../../components/Avatar";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
   const { user } = useUser();
+
   useEffect(() => {
     getTweet().then(setTimeline);
   }, []);
