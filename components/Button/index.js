@@ -23,7 +23,6 @@ export default function Button({ disabled, children, onClick, color, size }) {
           border: 0px;
           width: ${size ? SIZES[size] : "auto"};
           text-align: center;
-          margin-bottom: 15px;
         }
         button > :global(svg) {
           margin-right: 8px;

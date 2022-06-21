@@ -12,7 +12,7 @@ import {
   Timestamp,
   getDocs,
   // orderBy,
-  // onSnapshot
+  // onSnapshot,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -33,6 +33,7 @@ const firebaseConfig = {
 };
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+
 export const storage = getStorage(app);
 
 const mapUserFromFirebaseAuth = (user) => {
@@ -69,20 +70,19 @@ export const addTweet = ({
   avatar,
   content,
   userId,
-  userName,
   displayName,
   downloadImageURL,
 }) => {
   return addDoc(collection(db, "tweets"), {
-    avatar,
     content,
     userId,
-    userName,
     createdAt: Timestamp.now(),
     likeCounts: 0,
     shareCounts: 0,
-    displayName,
+    comentCounts: 0,
     downloadImageURL,
+    coments: [],
+    type: "principal",
   });
 };
 

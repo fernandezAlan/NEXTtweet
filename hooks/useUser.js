@@ -15,9 +15,7 @@ export default function useUser() {
   useEffect(() => {
     user === USER_STATES.NOT_LOGGED && router.push("/");
   });
-  useEffect(() => {
-    console.log("user", user);
-  }, [user]);
+
   /*
   const addNewUser = async () => {
     const newUser = await loginWithGithub();

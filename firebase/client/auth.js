@@ -10,14 +10,15 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-
+import { getUserActivity } from "./query/userActivityQuery";
+import { getUserInformation } from "./query/userInformationQuery";
 // -------PROVIDERS------------ //
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
 export const facebookProvider = new FacebookAuthProvider();
 
 // ------AUTH OBJECT---------- //
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 // -----AUTH FUNCTIONS-------- //
 export const createUser = async ({ email, password }) => {
@@ -48,14 +49,32 @@ const mapUserFromFirebaseAuth = (user) => {
 };
 
 export const isUserSigned = (onChange) => {
-  onAuthStateChanged(auth, (userData) => {
+  onAuthStateChanged(auth, async (userData) => {
     if (userData) {
       const user = mapUserFromFirebaseAuth(userData);
+      const userActivity = await getUserActivity({
+        currentUserId: userData.uid,
+      });
+      const userInformation = await getUserInformation({
+        userId: userData.uid,
+      });
+      user.userActivity = userActivity;
+      user.userInformation = userInformation;
       onChange(user);
     } else onChange(null);
   });
 };
 
-export const updateUser = ({ displayName, photoURL }) => {
-  return updateProfile(auth.currentUser, { displayName, photoURL });
+export const updateUser = ({
+  displayName,
+  photoURL,
+  username,
+  description,
+}) => {
+  return updateProfile(auth.currentUser, {
+    displayName,
+    photoURL,
+    username,
+    description,
+  });
 };

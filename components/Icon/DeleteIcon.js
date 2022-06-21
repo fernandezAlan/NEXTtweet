@@ -1,6 +1,6 @@
 import { colors } from "../../styles/theme";
 
-export default function DeleteIcon() {
+export default function DeleteIcon({ onClick }) {
   return (
     <>
       <svg
@@ -8,6 +8,7 @@ export default function DeleteIcon() {
         viewBox="0 0 21 21"
         width="21"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={onClick}
       >
         <g
           fill={"white"}

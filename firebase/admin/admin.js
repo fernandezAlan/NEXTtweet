@@ -15,5 +15,5 @@ if (!app) {
 }
 
 export const firestore = getFirestore(app);
-export const tweetsRef = firestore.collection("tweets");
+
 // export const db = admin.getDatabase();

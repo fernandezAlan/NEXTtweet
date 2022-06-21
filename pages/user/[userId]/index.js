@@ -1,5 +1,4 @@
-import ArrowLeftIcon from "../../../components/Icon/ArrowLeftIcon";
-import { breakpoints, colors } from "../../../styles/theme";
+import { colors, breakpoints } from "../../../styles/theme";
 import Banner from "../../../components/Banner";
 import Avatar from "../../../components/Avatar/index";
 import ProfileInformation from "../../../components/ProfileInformation";
@@ -8,29 +7,87 @@ import {
   getTweetsByUserId,
   getUserById,
 } from "../../../firebase/admin/querys/tweetsQuerys";
-import { signOut } from "../../../firebase/client/auth";
+import useUser from "../../../hooks/useUser";
+import HeaderProfile from "../../../components/HeaderProfile";
+import FollowButton from "../../../components/FollowButton";
+import { useState, useEffect } from "react";
+import Spinner from "../../../components/Spinner";
+import SharedLabel from "../../../components/SharedLabel";
+import TweetNotFound from "../../../components/TweetNotFound";
 export default function Profile({ tweets, user }) {
+  console.log("tweets", tweets);
+  const { user: currentUser } = useUser();
+  const sameUser = user.id === currentUser?.uid;
+  const followState = user.followers.find(
+    (userId) => userId === currentUser?.uid
+  );
+  const [loading, setLoading] = useState(true);
+  const [followsCount, setFollowsCount] = useState(user?.followsCount);
+  const [followersCount, setFollowersCount] = useState(user?.followersCount);
+
+  const handleFollowerCount = (type) => {
+    switch (type) {
+      case "follow":
+        setFollowersCount(followersCount + 1);
+        break;
+      case "unfollow":
+        setFollowersCount(followersCount - 1);
+        break;
+      default:
+        break;
+    }
+  };
+  useEffect(() => {
+    if (currentUser) setLoading(false);
+  }, [currentUser]);
+
+  if (loading)
+    return (
+      <>
+        <div>
+          <Spinner />
+        </div>
+        <style jsx>{`
+          div {
+            width: 350px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          @media (max-width: ${breakpoints.mobile}) {
+            div {
+              width: 100vw;
+            }
+          }
+        `}</style>
+      </>
+    );
+
   return (
     <>
-      <header>
-        <div>
-          <ArrowLeftIcon />
+      <HeaderProfile name={user.displayName} tweetsLength={tweets.length} />
+      <Banner>
+        <div className="avatar_container">
+          {user?.avatar && <Avatar src={user.avatar} size={"l"} />}
         </div>
-        <div>
-          <strong>Alan Fernandez</strong>
-          <span>{`${tweets.length} tweets`}</span>
-        </div>
-        <button onClick={signOut}>salir</button>
-      </header>
-      <Banner />
-      <div className="avatar_container">
-        {user?.avatar && <Avatar src={user.avatar} size={"l"} />}
-      </div>
+      </Banner>
+
+      {!sameUser && (
+        <FollowButton
+          state={!!followState}
+          userId={user.id}
+          handleFollowerCount={handleFollowerCount}
+        />
+      )}
       {user && (
         <ProfileInformation
           name={user.displayName}
-          username={tweets[0]?.userName}
-          description={"developer fullstack"}
+          username={user.userName}
+          description={user.description}
+          followsCount={followsCount}
+          followersCount={followersCount}
+          sameUser={sameUser}
         />
       )}
       <nav>
@@ -38,18 +95,31 @@ export default function Profile({ tweets, user }) {
       </nav>
       <section>
         {tweets.length > 0 &&
-          tweets.map((tw) => (
-            <Tweet
-              key={tw.id}
-              avatar={tw.avatar}
-              displayName={tw.displayName}
-              username={tw.username}
-              message={tw.content}
-              id={tw.id}
-              date={tw.createdAt}
-              downloadImageURL={tw.downloadImageURL}
-            />
-          ))}
+          tweets.map((tw) => {
+            return (
+              <>
+                {tw.type === "shared" && (
+                  <SharedLabel
+                    userId={user.id}
+                    currentUserId={currentUser?.uid}
+                  />
+                )}
+                {tw.error ? <TweetNotFound message={tw.error}/>: <Tweet
+                  key={tw.id}
+                  message={tw.content}
+                  tweetId={tw.id}
+                  date={tw.createdAt}
+                  downloadImageURL={tw.downloadImageURL}
+                  originalUserId={tw.originalUserId}
+                  userId={tw.userId}
+                  comentCounts={tw.comentCounts}
+                  likeCounts={tw.likeCounts}
+                  shareCounts={tw.shareCounts}
+                />}
+                
+              </>
+            );
+          })}
       </section>
       <style jsx>{`
         section {
@@ -59,24 +129,11 @@ export default function Profile({ tweets, user }) {
           width: 78px;
           height: 78px;
           position: relative;
-          bottom: 5%;
+          top: 60%;
           left: 5%;
           border-radius: 99999px;
-          border: solid #fff 3px;
         }
-        div:first-child {
-          margin: 13px;
-        }
-        header {
-          background-color: #fff;
-          width: 300px;
-          display: flex;
-          border-bottom: solid 1px gray;
-          height: 50px;
-          align-items: center;
-          position: fixed;
-          z-index: 3;
-        }
+
         div {
           display: flex;
           flex-direction: column;
@@ -93,8 +150,8 @@ export default function Profile({ tweets, user }) {
           padding: 20px;
         }
         @media (max-width: ${breakpoints.mobile}) {
-          header {
-            width: 100%;
+          .avatar_container {
+            left: 5%;
           }
         }
       `}</style>

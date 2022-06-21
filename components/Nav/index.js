@@ -24,7 +24,7 @@ export default function Nav() {
         nav {
           position: fixed;
           background-color: white;
-          width: 300px;
+          width: 350px;
           bottom: 0;
           height: 8vh;
           display: flex;

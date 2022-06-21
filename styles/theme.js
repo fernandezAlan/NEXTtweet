@@ -19,4 +19,5 @@ export const colors = {
   facebookColor: "#4267B2",
   googleColor: "#DB4437",
   githubColor: "#171515",
+  grayOpacity: "rgb(83 100 113 / 43%)",
 };

@@ -1,4 +1,14 @@
-export default function Avatar({ src, alt, text, withText, size = "m" }) {
+import { colors } from "../../styles/theme";
+
+export default function Avatar({
+  src,
+  alt,
+  text,
+  withText,
+  size = "m",
+  onClick,
+  displayName,
+}) {
   const SIZES = {
     s: "32px",
     m: "49px",
@@ -6,23 +16,44 @@ export default function Avatar({ src, alt, text, withText, size = "m" }) {
   };
   return (
     <>
-      <div>
+      <div onClick={onClick}>
         <img src={src} alt={alt} title={alt} />
-        {withText && <strong>{text || alt}</strong>}
+        {displayName && (
+          <section>
+            <strong>
+              <p>{displayName}</p>
+            </strong>
+            <span>
+              <p>{"@usuario_de_prueba"}</p>
+            </span>
+          </section>
+        )}
       </div>
       <style jsx>{`
-        div {
+        section {
           display: flex;
           flex-direction: column;
-          justify-content: ${withText ? "center" : "flex-start"};
-          align-items: center;
-          width: auto;
+          width: 100px;
+        }
+        span {
+          color: ${colors.gray};
+        }
+        div {
+          display: flex;
         }
         img {
           width: ${SIZES[size]};
           height: ${SIZES[size]};
           border-radius: 9999px;
           object-fit: cover;
+          margin-right: ${displayName ? "10px" : "0px"};
+        }
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 100px;
+          margin: 0px;
         }
       `}</style>
     </>

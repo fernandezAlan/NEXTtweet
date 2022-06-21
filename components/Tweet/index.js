@@ -1,51 +1,99 @@
+import AddComent from "../AddComent";
 import Avatar from "../Avatar/index";
-import { getTimeAgo } from "../../utils";
+import { getTimeAgo, formatDate } from "../../utils";
 import IconsContainer from "../IconsContainer";
 import DeleteIcon from "../Icon/DeleteIcon";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getUserById } from "../../services/user";
+import useUser from "../../hooks/useUser";
+import { deleteTweet } from "../../services/tweets";
+import DeletedMessage from "../deletedMessage";
+import { getTweetById } from "../../firebase/client/query/tweetsQuerys";
 export default function Tweet({
-  avatar,
-  displayName = "usuario_desconocido",
-  username,
   message,
   id,
   date,
   downloadImageURL,
+  createComend,
+  principal,
+  tweetId,
+  comentCounts,
+  userId,
+  likeCounts,
+  shareCounts,
 }) {
+  console.log("date", date);
+  const { user: currentUser } = useUser();
+
+  const [user, setUser] = useState(null);
+  const [deleted, setDelected] = useState(false);
   const router = useRouter();
   const handleTweetDetails = () => {
-    router.push(`/status/${id}`);
+    router.push(`/status/${tweetId}`);
   };
+  const goToUserProfile = () => {
+    router.push(`/user/${userId}`);
+  };
+  const handleDeleteTweet = () => {
+    deleteTweet({ tweetId }).then(() => {
+      setDelected(true);
+    });
+  };
+  useEffect(() => {
+    getUserById(userId).then(setUser);
+  }, []);
+
+  if (deleted) return <DeletedMessage />;
   return (
     <>
-      <article key={id}>
-        <Avatar src={avatar} alt={username} />
-        <section>
-          <div>
-            <strong>
-              <p>{displayName}</p>
-            </strong>
-            <Link href={`/status/${id}`}>
+      <article key={tweetId}>
+        <div>
+          <Avatar
+            src={user?.avatar}
+            alt={user?.username}
+            displayName={user?.displayName}
+            onClick={goToUserProfile}
+          />
+          {!principal && (
+            <Link href={`/status/${tweetId}`}>
               <a>
                 <time>{getTimeAgo(date)}</time>
               </a>
             </Link>
-            <DeleteIcon />
-          </div>
-          <span>
-            <p>{username && `@${username}`}</p>
-          </span>
+          )}
+          {currentUser?.uid === user?.id && (
+            <DeleteIcon onClick={handleDeleteTweet} />
+          )}
+        </div>
+        <section>
           <div className="content_container" onClick={handleTweetDetails}>
-            <p>{message}</p>
+            <p className="content">{message}</p>
             {downloadImageURL && <img src={downloadImageURL} />}
+            {principal && <span>{formatDate(date)}</span>}
           </div>
-
-          <IconsContainer />
+          {!createComend && (
+            <IconsContainer
+              tweetId={tweetId}
+              comentCounts={comentCounts}
+              likeCounts={likeCounts}
+              shareCounts={shareCounts}
+              userId={userId}
+            />
+          )}
         </section>
       </article>
+      {createComend && <AddComent tweetId={tweetId} />}
       <style jsx>{`
+        .content {
+          font-size: ${principal ? "22px" : "15px"};
+          margin-left: ${principal ? "0px" : "48px"};
+          white-space: normal;
+        }
         .content_container {
+          display: flex;
+          flex-direction: column;
           cursor: pointer;
         }
         a {
@@ -64,9 +112,11 @@ export default function Tweet({
           overflow: hidden;
           text-overflow: ellipsis;
           margin: 0;
+          white-space: nowrap;
+          font-size: ${principal ? "20px" : "15px"};
         }
         strong {
-          width: 50%;
+          width: 30%;
           font-size: 15px;
           font-weight: 600;
         }
@@ -75,6 +125,7 @@ export default function Tweet({
           width: 100%;
           padding: 10px 15px;
           display: flex;
+          flex-direction: column;
         }
         section {
           width: 100%;
@@ -88,6 +139,9 @@ export default function Tweet({
         span,
         time {
           color: rgb(83, 100, 113);
+        }
+        span {
+          margin: 15px 0px;
         }
       `}</style>
     </>

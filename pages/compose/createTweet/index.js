@@ -2,9 +2,10 @@ import Button from "../../../components/Button";
 import { useState, useEffect } from "react";
 import useUser from "../../../hooks/useUser";
 import Avatar from "../../../components/Avatar";
-import { addTweet, uploadImage } from "../../../firebase/client";
+import { addTweet, uploadImage } from "../../../firebase/client/client";
 import { useRouter } from "next/dist/client/router";
 import { colors } from "../../../styles/theme";
+import { createNewTweet } from "../../../services/tweets";
 
 export default function createTweet() {
   // -----------ENUM---------------
@@ -45,14 +46,10 @@ export default function createTweet() {
     event.preventDefault();
     let downloadImageURL = null;
     if (file) {
-      downloadImageURL = await uploadImage({file,folder:"image"});
+      downloadImageURL = await uploadImage({ file, folder: "image" });
     }
-    addTweet({
-      avatar: user.avatar,
+    createNewTweet({
       content: message,
-      userId: user.uid,
-      userName: user.username,
-      displayName: user.displayName,
       downloadImageURL,
     })
       .then(() => {
@@ -81,7 +78,6 @@ export default function createTweet() {
       setImgURL(fileReader.result);
     });
     fileReader.readAsDataURL(file);
-    // console.log();
   };
   const handleDeleteImgUrl = () => {
     setImgURL(null);
@@ -128,7 +124,9 @@ export default function createTweet() {
                 <img src={imgURL} />
               </div>
             )}
-            <Button disabled={disableButton}>compartir</Button>
+            <Button disabled={disableButton} color={colors.primary}>
+              compartir
+            </Button>
             {error === COMPOSE_STATE.ERROR && (
               <span>a ocurrido un error, vuelve a intentarlo</span>
             )}

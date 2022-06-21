@@ -1,18 +1,27 @@
-import { firestore } from "../../../../firebase/admin";
+import { firestore } from "../../../../firebase/admin/admin";
+
+const parseDate = (data) => {
+  const { createdAt } = data;
+  return createdAt.toMillis();
+};
 export default (req, res) => {
-  const { query } = req;
-  const { id } = query;
-  firestore
-    .collection("tweets")
-    .doc(id)
-    .get()
-    .then((doc) => {
-      const data = doc.data();
-      const { createdAt } = data;
-      data.createdAt = createdAt.toMillis();
-      res.json(data);
-    })
-    .catch(() => {
-      res.status(404).end();
-    });
+  return new Promise((resolve, reject) => {
+    const { query } = req;
+    const { id } = query;
+    firestore
+      .collection("tweets")
+      .doc(id)
+      .get()
+      .then(async (doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        data.createdAt = parseDate(data);
+        res.send(data);
+        resolve(data);
+      })
+      .catch((error) => {
+        res.status(404).end();
+        reject(error);
+      });
+  });
 };

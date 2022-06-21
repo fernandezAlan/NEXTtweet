@@ -4,36 +4,54 @@ import { getTweet } from "../../firebase/client/client";
 import { breakpoints } from "../../styles/theme";
 import useUser from "../../hooks/useUser";
 import Avatar from "../../components/Avatar";
+import { useRouter } from "next/router";
+import { getFollowedUsersTweets } from "../../firebase/client/query/tweetsQuerys";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
   const { user } = useUser();
-
+  const router = useRouter();
+  const goToProfile = (userId) => {
+    router.push(`/user/${userId}`);
+  };
   useEffect(() => {
-    getTweet().then(setTimeline);
-  }, []);
+    if (user?.userInformation) {
+      const followedUsersId = user.userInformation.follows;
+      const currentUserId = user.uid;
+      getFollowedUsersTweets({ followedUsersId, currentUserId }).then(
+        setTimeline
+      );
+    }
+  }, [user]);
 
   return (
     <>
       <header>
         <div>
-          <Avatar src={user?.avatar} size={"s"} />
+          <Avatar
+            src={user?.avatar}
+            size={"s"}
+            onClick={() => goToProfile(user.uid)}
+          />
           <span>inicio</span>
         </div>
       </header>
 
       <section>
-        {timeline.map((tweet) => (
-          <Tweet
-            key={tweet.id}
-            avatar={tweet.avatar}
-            message={tweet.content}
-            id={tweet.id}
-            username={tweet.userName}
-            date={tweet.createdAt}
-            displayName={tweet.displayName}
-            downloadImageURL={tweet.downloadImageURL}
-          />
-        ))}
+        {timeline.map((tweet) => {
+          return (
+            <Tweet
+              key={tweet.id}
+              message={tweet.content}
+              tweetId={tweet.id}
+              date={tweet.createdAt}
+              downloadImageURL={tweet.downloadImageURL}
+              comentCounts={tweet.comentCounts}
+              userId={tweet.userId}
+              likeCounts={tweet.likeCounts}
+              shareCounts={tweet.shareCounts}
+            />
+          );
+        })}
       </section>
       <style jsx>{`
         div {
@@ -51,7 +69,7 @@ export default function HomePage() {
           height: 49px;
           position: fixed;
           top: 0;
-          width: 300px;
+          width: 350px;
           display: flex;
           align-items: center;
           background-color: white;

@@ -34,7 +34,7 @@ export default css`
     border-radius: 10px;
     box-shadow: 0px 10px 25px rgb(0, 0, 0, 0.1);
     height: 100%;
-    width: 300px;
+    width: 350px;
   }
   @media (max-width: ${breakpoints.mobile}) {
     main {

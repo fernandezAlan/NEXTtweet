@@ -1,8 +1,14 @@
-import { getTweetsByUserName } from "../../../../firebase/admin/querys/tweetsQuerys";
+import { getUserById } from "../../../../firebase/admin/querys/tweetsQuerys";
 export default (req, res) => {
-  const { query } = req;
-  const { username } = query;
-  getTweetsByUserName(username).then((data) => res.json(data));
+  return new Promise((resolve, reject) => {
+    const { query } = req;
+    const { id } = query;
+
+    getUserById(id).then((data) => {
+      res.json(data);
+      resolve();
+    });
+  });
   // res.status(200).end();
   /*
 firestore

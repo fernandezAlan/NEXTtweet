@@ -1,8 +1,26 @@
-export const formatDate = (date) => {
-  return new Intl.DateTimeFormat("es-ES", {
-    dateStyle: "full",
-    timeStyle: "full",
-  }).format(date);
+export const months = [
+  "ene",
+  "feb",
+  "mar",
+  "abr",
+  "may",
+  "jun",
+  "jul",
+  "ago",
+  "sep",
+  "oct",
+  "nov",
+  "dic",
+];
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const splitDay = date.toLocaleTimeString().split(":");
+  splitDay.pop();
+  const time = splitDay.join(":");
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${time}hs.  ${day} ${month}.${year}`;
 };
 
 export const splitDate = (d) => {
@@ -54,4 +72,8 @@ export const getTimeAgo = (timestamp) => {
   const { value, unit } = getUnitAndValueDate(secondsElapsed);
   // formateamos el tiempo relativo usando esos dos valores
   return rtf.format(value, unit);
+};
+
+export const generateRandomId = () => {
+  return Math.random().toString(36).substr(2, 18);
 };

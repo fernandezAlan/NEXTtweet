@@ -10,11 +10,14 @@ import {
   facebookProvider,
 } from "../../firebase/client/auth";
 import { useRouter } from "next/dist/client/router";
+import { addNewUser } from "../../services/user";
 
 export default function ProvidersLoginCotainer() {
   const router = useRouter();
-  const handleLogin = (loginProvider) => {
-    loginProvider.then(() => router.push("/home"));
+  const handleLogin = async (loginProvider) => {
+    await loginProvider;
+    await addNewUser({ currentUserId: "12345" });
+    router.push("/home");
   };
   return (
     <>

@@ -3,6 +3,8 @@ import Button from "../Button";
 import { colors } from "../../styles/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import ErrorMessage from "../ErrorMessage/index";
+import { addNewUser } from "../../services/user";
 export default function Form({ submitFunction, type }) {
   // ----ENUM CONFIG-------
   const BUTTON_SIZE = {
@@ -51,6 +53,12 @@ export default function Form({ submitFunction, type }) {
     event.preventDefault();
     submitFunction({ email, password })
       .then((result) => {
+        if (type === "REGISTER") {
+          addNewUser({
+            currentUserId: result.user.uid,
+          });
+        }
+        console.log("result_new user", result);
         setError(false);
         setloading(false);
         router.push(NEXT_PAGE[type]);
@@ -95,16 +103,13 @@ export default function Form({ submitFunction, type }) {
         </Link>
       </form>
       {error && type === "LOGIN" ? (
-        <span className="error_message">
-          ¡el email o contraseña introducidos no coinciden! vuelve a intentar o
-          registrate por favor
-        </span>
+        <ErrorMessage
+          message={
+            "¡el email o contraseña introducidos no coinciden! vuelve a intentar o registrate por favor"
+          }
+        />
       ) : null}
       <style jsx>{`
-        .error_message {
-          color: red;
-          padding: 15px;
-        }
         a {
           color: ${colors.primary};
         }

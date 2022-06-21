@@ -1,8 +1,12 @@
 import { colors } from "../../styles/theme";
-export default function Banner({ imgURL }) {
+export default function Banner({ imgURL, children }) {
   return (
     <>
-      {imgURL ? <img src={imgURL} alt="imagen_banner" /> : <div></div>}
+      {imgURL ? (
+        <img src={imgURL} alt="imagen_banner" />
+      ) : (
+        <div>{children}</div>
+      )}
       <style jsx>{`
         div {
           margin-top: 50px;
