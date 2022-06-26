@@ -9,7 +9,7 @@ export const addNewUser = ({ currentUserId }) => {
       },
       body: JSON.stringify({ currentUserId }),
     };
-    fetch(`http://localhost:3000/api/user/newUser`, config)
+    fetch(`/api/user/newUser`, config)
       .then(async (response) => {
         if (response.ok) {
           resolve(response);
@@ -30,7 +30,7 @@ export const getUserById = (userId) => {
           "Content-Type": "application/json",
         },
       };
-      fetch(`http://localhost:3000/api/user/${userId}`, config)
+      fetch(`/api/user/${userId}`, config)
         .then(async (response) => {
           if (response.ok) {
             const data = await response.json();
@@ -54,7 +54,7 @@ export const followUser = async ({ userId }) => {
     },
     body: JSON.stringify({ userId }),
   };
-  return fetch(`http://localhost:3000/api/user/follow`, config);
+  return fetch(`/api/user/follow`, config);
 };
 
 export const unfollowUser = async ({ userId }) => {
@@ -68,7 +68,7 @@ export const unfollowUser = async ({ userId }) => {
     },
     body: JSON.stringify({ userId }),
   };
-  return fetch(`http://localhost:3000/api/user/unfollow`, config);
+  return fetch(`/api/user/unfollow`, config);
 };
 
 export const createUserInformation = async ({
@@ -87,7 +87,7 @@ export const createUserInformation = async ({
       },
       body: JSON.stringify({ userName, description, displayName }),
     };
-    fetch(`http://localhost:3000/api/user/create`, config)
+    fetch(`/api/user/create`, config)
       .then(async (response) => {
         if (response.ok) {
           resolve(response);
@@ -107,5 +107,5 @@ export const deleteUser = async () => {
       "Content-Type": "application/json",
     },
   };
-  return fetch(`http://localhost:3000/api/user/delete`, config);
+  return fetch(`/api/user/delete`, config);
 };

@@ -9,7 +9,7 @@ export const getAllTweets = () => {
         "Content-Type": "application/json",
       },
     };
-    fetch("http://localhost:3000/api/tweets", config)
+    fetch("/api/tweets", config)
       .then(async (response) => {
         if (response.ok) {
           const data = await response.json();
@@ -32,7 +32,7 @@ export const deleteTweet = async ({ tweetId }) => {
     },
     body: JSON.stringify({ tweetId }),
   };
-  return fetch(`http://localhost:3000/api/tweets/delete`, config);
+  return fetch(`/api/tweets/delete`, config);
 };
 
 export const addShareTweet = async ({ tweetId }) => {
@@ -46,7 +46,7 @@ export const addShareTweet = async ({ tweetId }) => {
     },
     body: JSON.stringify({ tweetId }),
   };
-  return fetch(`http://localhost:3000/api/tweets/share`, config);
+  return fetch(`/api/tweets/share`, config);
 };
 
 export const unshareTweet = async ({ tweetId }) => {
@@ -60,7 +60,7 @@ export const unshareTweet = async ({ tweetId }) => {
     },
     body: JSON.stringify({ tweetId }),
   };
-  return fetch(`http://localhost:3000/api/tweets/share`, config);
+  return fetch(`/api/tweets/share`, config);
 };
 
 export const createNewTweet = async (tweetData) => {
@@ -74,5 +74,5 @@ export const createNewTweet = async (tweetData) => {
     },
     body: JSON.stringify(tweetData),
   };
-  return fetch(`http://localhost:3000/api/tweets/create`, config);
+  return fetch(`/api/tweets/create`, config);
 };

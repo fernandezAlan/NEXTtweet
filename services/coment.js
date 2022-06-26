@@ -8,7 +8,7 @@ export const addNewComent = (data) => {
       },
       body: JSON.stringify(data),
     };
-    fetch("http://localhost:3000/api/coment", config)
+    fetch("/api/coment", config)
       .then((response) => {
         if (response.ok) resolve(response);
         else reject(new Error("server error"));

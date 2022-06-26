@@ -10,5 +10,5 @@ export const addNewActivity = async ({ type, tweetId, targetUserId }) => {
     },
     body: JSON.stringify({ tweetId, targetUserId }),
   };
-  return fetch(`http://localhost:3000/api/activity/${type}`, config);
+  return fetch(`/api/activity/${type}`, config);
 };
