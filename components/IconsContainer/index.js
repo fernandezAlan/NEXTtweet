@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ComendIcon from "../Icon/comendIcon";
-import LikeIcon from "../Icon/likeIcon";
+import LikeIcon from "../Icon/LikeIcon";
 import ShareIcon from "../Icon/shareIcon";
 import { colors } from "../../styles/theme";
 import { useRouter } from "next/router";
