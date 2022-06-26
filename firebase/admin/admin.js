@@ -1,7 +1,7 @@
 import { getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import admin from "firebase-admin";
-const firebaseAdminConfig = {
+const serviceAccount = {
   type: process.env.FIREBASE_ADMIN_TYPE,
   project_id: process.env.FIREBASE_ADMIN_PROJECT_ID,
   private_key_id: process.env.FIREBASE_ADMIN_PRIVATE_KEY_ID,
@@ -14,15 +14,11 @@ const firebaseAdminConfig = {
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_URL,
 };
 
-const serviceAccount = require("../firebase-keys-dev.json");
 export let app = getApps()[0];
 if (!app) {
   app = admin.initializeApp(
     {
-      credential:
-        process.env.NODE_ENV === "production"
-          ? firebaseAdminConfig
-          : admin.credential.cert(serviceAccount),
+      credential: serviceAccount,
       databaseURL: "https://dev-tw-3997d-default-rtdb.firebaseio.com",
     },
     "admin_app"
