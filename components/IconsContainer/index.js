@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ComendIcon from "../Icon/comendIcon";
 import LikeIcon from "../Icon/LikeIcon";
-import ShareIcon from "../Icon/shareIcon";
+import ShareIcon from "../Icon/ShareIcon";
 import { colors } from "../../styles/theme";
 import { useRouter } from "next/router";
 import { getUserActivity } from "../../firebase/client/query/userActivityQuery";

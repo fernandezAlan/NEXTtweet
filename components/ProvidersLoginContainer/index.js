@@ -22,8 +22,9 @@ export default function ProvidersLoginCotainer() {
         await addNewUser({ currentUserId: providerResult.user.uid });
         router.push("/");
       })
-      .catch(() => {
+      .catch((error) => {
         setError(true);
+        return new Error("login with provider error:", error);
       });
   };
   return (
