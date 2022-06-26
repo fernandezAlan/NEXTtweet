@@ -13,12 +13,11 @@ const serviceAccount = {
   auth_provider_x509_cert_url: process.env.FIREBASE_ADMIN_AUTH_PROVIDER,
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_URL,
 };
-
 export let app = getApps()[0];
 if (!app) {
   app = admin.initializeApp(
     {
-      credential: serviceAccount,
+      credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://dev-tw-3997d-default-rtdb.firebaseio.com",
     },
     "admin_app"
