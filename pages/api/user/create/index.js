@@ -22,7 +22,7 @@ export default (req, res) => {
         .then(() => {
           res.status(201).end();
         })
-        .catch(() => res.status(500).end());
+        .catch((error) => res.status(500).json(error));
     });
     resolve();
   });

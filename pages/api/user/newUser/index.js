@@ -9,7 +9,7 @@ export default (req, res) => {
         resolve();
       })
       .catch((error) => {
-        res.status(500).end();
+        res.status(500).json(error);
         reject(error);
       });
   });
