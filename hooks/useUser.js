@@ -13,7 +13,7 @@ export default function useUser() {
     isUserSigned(setUser);
   }, []);
   useEffect(() => {
-    user === USER_STATES.NOT_LOGGED && router.push("/");
+    user === USER_STATES.NOT_LOGGED && router.push("/login");
   });
 
   /*

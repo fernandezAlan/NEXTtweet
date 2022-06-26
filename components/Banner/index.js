@@ -10,7 +10,7 @@ export default function Banner({ imgURL, children }) {
       <style jsx>{`
         div {
           margin-top: 50px;
-          background-color: ${colors.gray};
+          background-color: ${colors.primary};
           width: 100%;
           height: 15vh;
         }

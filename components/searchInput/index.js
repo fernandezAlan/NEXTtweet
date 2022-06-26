@@ -1,5 +1,6 @@
 import SearchIcon from "../Icon/SearchIcon";
 import { useState } from "react";
+
 export default function SearchInput({ placeholder, handleSearch }) {
   const [value, setValue] = useState("");
   const handleChange = (event) => {

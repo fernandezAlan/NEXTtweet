@@ -18,7 +18,11 @@ export default function Nav() {
             <HomeIcon />
           </a>
         </Link>
-        <SearchIcon />
+        <Link href={"/explore"}>
+          <a>
+            <SearchIcon />
+          </a>
+        </Link>
       </nav>
       <style jsx>{`
         nav {

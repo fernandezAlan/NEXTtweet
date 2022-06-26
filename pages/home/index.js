@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Tweet from "../../components/Tweet";
-import { getTweet } from "../../firebase/client/client";
 import { breakpoints } from "../../styles/theme";
 import useUser from "../../hooks/useUser";
 import Avatar from "../../components/Avatar";
 import { useRouter } from "next/router";
 import { getFollowedUsersTweets } from "../../firebase/client/query/tweetsQuerys";
+import SharedLabel from "../../components/SharedLabel";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
   const { user } = useUser();
@@ -20,6 +20,8 @@ export default function HomePage() {
       getFollowedUsersTweets({ followedUsersId, currentUserId }).then(
         setTimeline
       );
+    } else if (user?.userInformation === null) {
+      router.push("/edit/profile");
     }
   }, [user]);
 
@@ -39,17 +41,22 @@ export default function HomePage() {
       <section>
         {timeline.map((tweet) => {
           return (
-            <Tweet
-              key={tweet.id}
-              message={tweet.content}
-              tweetId={tweet.id}
-              date={tweet.createdAt}
-              downloadImageURL={tweet.downloadImageURL}
-              comentCounts={tweet.comentCounts}
-              userId={tweet.userId}
-              likeCounts={tweet.likeCounts}
-              shareCounts={tweet.shareCounts}
-            />
+            <>
+              {tweet.type === "shared" && (
+                <SharedLabel userId={tweet.userId} currentUserId={user.uid} />
+              )}
+              <Tweet
+                key={tweet.type + tweet.id}
+                message={tweet.content}
+                tweetId={tweet.id}
+                date={tweet.createdAt}
+                downloadImageURL={tweet.downloadImageURL}
+                comentCounts={tweet.comentCounts}
+                userId={tweet.userId}
+                likeCounts={tweet.likeCounts}
+                shareCounts={tweet.shareCounts}
+              />
+            </>
           );
         })}
       </section>

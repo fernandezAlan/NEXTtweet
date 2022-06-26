@@ -1,3 +1,5 @@
 node_modules
 .next
 firebase/firebase-keys.json
+firebase/firebase-keys-prod.json
+firebase/firebase-keys-dev.json

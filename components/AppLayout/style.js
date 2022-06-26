@@ -26,7 +26,7 @@ export const globalStyles = css.global`
 export default css`
   div {
     display: flex;
-    height: 100vh;
+    height: 100%;
     justify-content: center;
   }
   main {
@@ -34,6 +34,7 @@ export default css`
     border-radius: 10px;
     box-shadow: 0px 10px 25px rgb(0, 0, 0, 0.1);
     height: 100%;
+    min-height: 100vh;
     width: 350px;
   }
   @media (max-width: ${breakpoints.mobile}) {

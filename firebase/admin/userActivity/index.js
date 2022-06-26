@@ -1,12 +1,18 @@
 import { firestore } from "../admin";
 
 import { Timestamp, FieldValue } from "firebase-admin/firestore";
+/**
+ * en userActivity guardamos toda la actividad que el usuario puede realizar(dar like, comentar, compartir tweet y seguir usuarios)
+ */
 
 const userActRef = firestore.collection("userActivity");
 const tweetRef = firestore.collection("tweets");
+
+// cuando se registra el usuario se crea un "userActivity" para ese usuario
 export const createUserActivity = ({ currentUserId }) => {
   return userActRef.doc(currentUserId).set({ createdAccount: Timestamp.now() });
 };
+
 export const addUserActivity = async ({
   tweetId,
   currentUserId,
@@ -16,17 +22,18 @@ export const addUserActivity = async ({
   const doc = await userActRef.doc(currentUserId).get();
   const userActivity = doc.data();
   const userId = `user-id-${targetUserId}`;
+
   if (userActivity[userId]) {
     switch (typeActivity) {
       case "follow": {
         const path = `${userId}.followStatus`;
-        userActRef.doc(currentUserId).update({ [path]: true });
+        await userActRef.doc(currentUserId).update({ [path]: true });
         break;
       }
       case "unfollow":
         {
           const path = `${userId}.followStatus`;
-          userActRef.doc(currentUserId).update({ [path]: false });
+          await userActRef.doc(currentUserId).update({ [path]: false });
         }
         break;
       case "like": {
@@ -34,12 +41,9 @@ export const addUserActivity = async ({
         const path = `${userId}.tweets`;
         const findedTweet = tweets.find((tw) => tw.tweetId === tweetId);
         if (findedTweet) {
-          tweets.forEach((tw) => {
+          tweets.forEach(async (tw) => {
             if (tw.tweetId === tweetId) {
               tw.likeStatus = true;
-              tweetRef
-                .doc(tweetId)
-                .update({ likeCounts: FieldValue.increment(1) });
             }
           });
         } else {
@@ -51,22 +55,24 @@ export const addUserActivity = async ({
           };
           tweets.push(newTweet);
         }
-        userActRef.doc(currentUserId).update({ [path]: tweets });
-        tweetRef.doc(tweetId).update({ likeCounts: FieldValue.increment(1) });
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
+        await tweetRef
+          .doc(tweetId)
+          .update({ likeCounts: FieldValue.increment(1) });
         break;
       }
       case "dislike": {
         const tweets = userActivity[userId].tweets;
         const path = `${userId}.tweets`;
-        tweets.forEach((tw) => {
+        tweets.forEach(async (tw) => {
           if (tw.tweetId === tweetId) {
             tw.likeStatus = false;
-            tweetRef
+            await tweetRef
               .doc(tweetId)
               .update({ likeCounts: FieldValue.increment(-1) });
           }
         });
-        userActRef.doc(currentUserId).update({ [path]: tweets });
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
         break;
       }
       case "coment": {
@@ -88,7 +94,7 @@ export const addUserActivity = async ({
           };
           tweets.push(newTweet);
         }
-        userActRef.doc(currentUserId).update({ [path]: tweets });
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
         break;
       }
       case "delete-coment": {
@@ -99,19 +105,32 @@ export const addUserActivity = async ({
             tw.comentStatus = false;
           }
         });
-        userActRef.doc(currentUserId).update({ [path]: tweets });
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
         break;
       }
       case "share": {
         const tweets = userActivity[userId].tweets;
         const path = `${userId}.tweets`;
-        tweets.forEach((tw) => {
-          if (tw.tweetId === tweetId) {
-            tw.shareStatus = true;
-          }
-        });
-        userActRef.doc(currentUserId).update({ [path]: tweets });
-        tweetRef.doc(tweetId).update({ shareCounts: FieldValue.increment(1) });
+        const findedTweet = tweets.find((tw) => tw.tweetId === tweetId);
+        if (findedTweet) {
+          tweets.forEach((tw) => {
+            if (tw.tweetId === tweetId) {
+              tw.shareStatus = true;
+            }
+          });
+        } else {
+          const newTweet = {
+            likeStatus: false,
+            comentStatus: false,
+            tweetId,
+            shareStatus: true,
+          };
+          tweets.push(newTweet);
+        }
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
+        await tweetRef
+          .doc(tweetId)
+          .update({ shareCounts: FieldValue.increment(1) });
         break;
       }
       case "unShare": {
@@ -122,8 +141,10 @@ export const addUserActivity = async ({
             tw.shareStatus = false;
           }
         });
-        userActRef.doc(currentUserId).update({ [path]: tweets });
-        tweetRef.doc(tweetId).update({ shareCounts: FieldValue.increment(-1) });
+        await userActRef.doc(currentUserId).update({ [path]: tweets });
+        await tweetRef
+          .doc(tweetId)
+          .update({ shareCounts: FieldValue.increment(-1) });
         break;
       }
       default:
@@ -146,12 +167,18 @@ export const addUserActivity = async ({
         break;
       case "like":
         tweetData.likeStatus = true;
+        await tweetRef
+          .doc(tweetId)
+          .update({ likeCounts: FieldValue.increment(1) });
         break;
       case "coment":
         tweetData.comentStatus = true;
         break;
       case "share":
         tweetData.shareStatus = true;
+        await tweetRef
+          .doc(tweetId)
+          .update({ shareCounts: FieldValue.increment(1) });
         break;
       default:
         break;

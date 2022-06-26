@@ -23,13 +23,14 @@ import {
 // import { storage }¿ from "firebase/storage";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCvfDk7XBYp6Kgn662U9-qrEzWhBMmFOEY",
-  authDomain: "dev-tw-3997d.firebaseapp.com",
-  projectId: "dev-tw-3997d",
-  storageBucket: "dev-tw-3997d.appspot.com",
-  messagingSenderId: "95783529278",
-  appId: "1:95783529278:web:763c2c2a61292e557eda6f",
-  measurementId: "G-QP5JQJYX0Y",
+  apiKey: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_API_KEY, // "AIzaSyCvfDk7XBYp6Kgn662U9-qrEzWhBMmFOEY",
+  authDomain: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_AUTH_DOMAIN, // "dev-tw-3997d.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_PROJECT_ID, // "dev-tw-3997d",
+  storageBucket: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_STORAGE_BUCKET, // "dev-tw-3997d.appspot.com",
+  messagingSenderId:
+    process.env.NEXT_PUBLIC_CLIENT_FIREBASE_MESSAGING_SENDER_ID, // "95783529278",
+  appId: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_APP_ID, // "1:95783529278:web:763c2c2a61292e557eda6f",
+  measurementId: process.env.NEXT_PUBLIC_CLIENT_FIREBASE_MEASUREMENT_ID, // "G-QP5JQJYX0Y",
 };
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

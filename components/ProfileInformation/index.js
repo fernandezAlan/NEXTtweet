@@ -48,7 +48,10 @@ export default function ProfileInformation({
           margin-left: 10px;
         }
         p {
-          margin-left: 10px;
+          padding: 10px;
+          margin: 0px;
+          max-width: 100%;
+          overflow-wrap: anywhere;
         }
       `}</style>
     </>

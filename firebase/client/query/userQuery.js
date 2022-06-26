@@ -4,20 +4,16 @@ import { db } from "../client";
 const userInfoRef = collection(db, "userInformation");
 
 export const getUserByName = async ({ name }) => {
-  const results = [];
-  const q1 = query(userInfoRef, where("displayName", "==", name));
-  const q2 = query(userInfoRef, where("userName", "==", name));
-  const data1 = await getDocs(q1);
-  const data2 = await getDocs(q2);
-  data1.docs.forEach((doc) => {
+  const q = query(
+    userInfoRef,
+    where("names", "array-contains", name.toUpperCase())
+  );
+  const data = await getDocs(q);
+
+  const results = data.docs.map((doc) => {
     const data = doc.data();
     data.id = doc.id;
-    results.push(data);
-  });
-  data2.docs.forEach((doc) => {
-    const data = doc.data();
-    data.id = doc.id;
-    results.push(data);
+    return data;
   });
   return results;
 };

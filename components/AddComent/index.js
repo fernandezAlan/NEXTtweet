@@ -9,17 +9,29 @@ import { addNewComent } from "../../services/coment";
 import Spinner from "../Spinner/index";
 import Tweet from "../Tweet/index";
 import ErrorMessage from "../ErrorMessage";
+import { useRouter } from "next/router";
 export default function AddComent({ tweetId }) {
+  // ------ENUM-------------------------
   const STATUS = {
     LOADING: 0,
     ENABLE: 1,
     SUCCESS: 2,
     ERROR: -1,
   };
+
+  // -----------USE USER------------------
   const { user } = useUser();
+
+  // -----------USE STATES----------------
   const [value, setValue] = useState("");
   const [comentStatus, setComentStatus] = useState(STATUS.ENABLE);
   const [comentsDone, setComentsDone] = useState([]);
+
+  // -----------USE ROUTER-----------------
+  const router = useRouter();
+  const locale = router.pathname.split("/")[1];
+
+  // -----------HANDLE FUNCTIONS------------
   const handleValue = (e) => {
     setValue(e.target.value);
   };
@@ -48,6 +60,7 @@ export default function AddComent({ tweetId }) {
         setComentStatus(STATUS.ERROR);
       });
   };
+
   return (
     <section>
       {comentStatus === STATUS.ERROR && (
@@ -72,7 +85,7 @@ export default function AddComent({ tweetId }) {
           <form onSubmit={handleSubmit}>
             <TextArea
               placeholder={"Tweetea tu respuesta"}
-              size="L"
+              size={locale === "status" ? "S" : "L"}
               value={value}
               onChange={handleValue}
               onFocus={() => setComentStatus(STATUS.ENABLE)}
@@ -106,7 +119,6 @@ export default function AddComent({ tweetId }) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin-bottom: 40px;
         }
       `}</style>
     </section>

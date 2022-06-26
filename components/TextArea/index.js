@@ -6,7 +6,7 @@ export default function TextArea({
   onFocus,
 }) {
   const SIZES = {
-    S: "100px",
+    S: "50px",
     M: "150px",
     L: "200px",
   };
@@ -22,9 +22,9 @@ export default function TextArea({
         textarea {
           background-color: white;
           border: 0px;
-          height: 20vh;
+          height: ${SIZES[size]};
           outline: none;
-          width: ${SIZES[size]};
+          width: 200px;
           resize: none;
           font-size: 20px;
           margin: 20px;

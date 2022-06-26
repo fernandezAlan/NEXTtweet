@@ -29,8 +29,6 @@ export const unShareTweet = async ({ tweetId, currentUserId }) => {
   const doc = await tweetsRef.doc(tweetId).get();
   const sharedTweet = doc.data();
 
-  console.log("sharedTweet!", sharedTweet.userId);
-  console.log("currentUserId", currentUserId);
   if (sharedTweet.userId === currentUserId) {
     return await tweetsRef.doc(tweetId).delete();
   }
@@ -111,6 +109,9 @@ export const getUserById = (userId) => {
           avatar: photoURL,
           ...userInfo,
         });
+      })
+      .catch((error) => {
+        reject(error);
       });
   });
 };
@@ -157,7 +158,6 @@ export const addComent = async ({
       });
       resolve();
     } catch (error) {
-      console.log("error es:", error);
       reject(error);
     }
   });

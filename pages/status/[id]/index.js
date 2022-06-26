@@ -1,6 +1,7 @@
 import Tweet from "../../../components/Tweet/index";
 import Header from "../../../components/Header";
 import { getTweetsById } from "../../../firebase/admin/querys/tweetsQuerys";
+
 export default function TweetDetail(props) {
   return (
     <>
@@ -45,17 +46,13 @@ export default function TweetDetail(props) {
 export async function getServerSideProps(context) {
   const { params } = context;
   const { id } = params;
-  const apiResponse = await fetch(`http://localhost:3000/api/tweets/${id}`);
-
-  if (apiResponse.ok) {
-    const response = await apiResponse.json();
-    if (response.coments.length) {
-      const promises = response.coments.map(async (comentId) => {
-        return await getTweetsById(comentId);
-      });
-      const coments = await Promise.all(promises);
-      response.coments = coments;
-    }
-    return { props: response };
+  const tweet = await getTweetsById(id);
+  if (tweet.coments.length) {
+    const promises = tweet.coments.map(async (comentId) => {
+      return await getTweetsById(comentId);
+    });
+    const coments = await Promise.all(promises);
+    tweet.coments = coments;
   }
+  return { props: tweet };
 }

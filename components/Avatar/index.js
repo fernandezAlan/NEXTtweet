@@ -1,5 +1,4 @@
 import { colors } from "../../styles/theme";
-
 export default function Avatar({
   src,
   alt,
@@ -8,6 +7,7 @@ export default function Avatar({
   size = "m",
   onClick,
   displayName,
+  userName,
 }) {
   const SIZES = {
     s: "32px",
@@ -24,7 +24,7 @@ export default function Avatar({
               <p>{displayName}</p>
             </strong>
             <span>
-              <p>{"@usuario_de_prueba"}</p>
+              <p>{`@${userName}`}</p>
             </span>
           </section>
         )}
@@ -41,12 +41,14 @@ export default function Avatar({
         div {
           display: flex;
         }
-        img {
+        img,
+        object {
           width: ${SIZES[size]};
           height: ${SIZES[size]};
           border-radius: 9999px;
           object-fit: cover;
           margin-right: ${displayName ? "10px" : "0px"};
+          cursor: pointer;
         }
         p {
           overflow: hidden;

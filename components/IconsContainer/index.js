@@ -9,6 +9,8 @@ import { addNewActivity } from "../../services/userActivity";
 import useUser from "../../hooks/useUser";
 import { addShareTweet, unshareTweet } from "../../services/tweets";
 import { getSharedTweetId } from "../../firebase/client/query/tweetsQuerys";
+
+// container de los iconos de "like", "coment" y "share" de cada tweet
 export default function IconsContainer({
   tweetId,
   comentCounts = 0,

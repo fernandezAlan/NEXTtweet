@@ -2,18 +2,30 @@ import ArrowLeftIcon from "../Icon/ArrowLeftIcon";
 import { signOut } from "../../firebase/client/auth";
 import { useRouter } from "next/router";
 import { colors, breakpoints } from "../../styles/theme";
-
+import MenuIcon from "../Icon/MenuIcon";
+import { useState } from "react";
+import { deleteUser } from "../../services/user";
 export default function HeaderProfile({ name, tweetsLength }) {
   const router = useRouter();
+  const [showMenu, setShowMenu] = useState(false);
   const logOut = () => {
     signOut();
     router.push("/login");
+  };
+  const handleDeleteUser = () => {
+    deleteUser().then(() => {
+      router.replace("/login");
+    });
+  };
+
+  const goBack = () => {
+    router.back();
   };
   return (
     <>
       <header>
         <section>
-          <div>
+          <div onClick={goBack}>
             <ArrowLeftIcon />
           </div>
           <div>
@@ -22,10 +34,40 @@ export default function HeaderProfile({ name, tweetsLength }) {
           </div>
         </section>
         <section>
-          <button onClick={logOut}>cerrar sesión</button>
+          <MenuIcon onClick={() => setShowMenu(!showMenu)} />
+          <nav>
+            {showMenu && (
+              <ul>
+                <li onClick={logOut}>cerrar sesion</li>
+                <li onClick={handleDeleteUser}>borra cuenta</li>
+              </ul>
+            )}
+          </nav>
         </section>
       </header>
       <style jsx>{`
+        nav {
+          background-color: white;
+          position: absolute;
+          top: 100%;
+          left: 60%;
+          width: 130px;
+          border-radius: 5px;
+          border: solid 1px ${colors.grayOpacity};
+        }
+        ul {
+          padding: 12px;
+          margin: 0px;
+        }
+        li {
+          list-style-type: none;
+          padding: 7px;
+          cursor: pointer;
+        }
+        li:hover {
+          background-color: #80808038;
+          border-radius: 10px;
+        }
         button {
           height: 30px;
           border-radius: 30px;

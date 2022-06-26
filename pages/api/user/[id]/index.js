@@ -3,11 +3,14 @@ export default (req, res) => {
   return new Promise((resolve, reject) => {
     const { query } = req;
     const { id } = query;
-
-    getUserById(id).then((data) => {
-      res.json(data);
-      resolve();
-    });
+    if (id) {
+      getUserById(id).then((data) => {
+        res.json(data);
+      });
+    } else {
+      res.status(400).end();
+    }
+    resolve();
   });
   // res.status(200).end();
   /*

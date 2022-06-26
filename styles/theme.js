@@ -6,7 +6,16 @@ export const fonts = {
   -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
       `,
 };
-
+export const messageColors = {
+  infoBackground: "#BDE5F8",
+  infoColor: "#00529B",
+  successColor: "#4F8A10",
+  successBackground: "#DFF2BF",
+  warningColor: "#9F6000",
+  warningBackground: "#FEEFB3",
+  errorColor:"#D8000C",
+  errorBackground:" #FFD2D2"
+};
 export const colors = {
   black: "#0f1419;",
   white: "#fff",

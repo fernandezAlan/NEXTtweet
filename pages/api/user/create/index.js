@@ -7,7 +7,6 @@ export default (req, res) => {
     }
     const token = req.headers.authorization.split(" ")[1];
     const { userName, description, displayName } = req.body;
-    console.log("req.body", req.body);
     const data = {
       userName,
       description,
@@ -16,6 +15,7 @@ export default (req, res) => {
       followsCount: 0,
       followersCount: 0,
       displayName,
+      names: [userName.toUpperCase(), displayName.toUpperCase()],
     };
     verifyIdToken(token).then((currentUserId) => {
       createUserInformation({ currentUserId, data })

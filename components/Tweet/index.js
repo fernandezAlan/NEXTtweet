@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../../services/user";
 import useUser from "../../hooks/useUser";
 import { deleteTweet } from "../../services/tweets";
-import DeletedMessage from "../deletedMessage";
-import { getTweetById } from "../../firebase/client/query/tweetsQuerys";
+import Message from "../Message";
+
 export default function Tweet({
   message,
   id,
@@ -24,12 +24,15 @@ export default function Tweet({
   likeCounts,
   shareCounts,
 }) {
-  console.log("date", date);
+  // ---------USE USER------------------
   const { user: currentUser } = useUser();
 
+  // ---------USE STATES----------------
   const [user, setUser] = useState(null);
   const [deleted, setDelected] = useState(false);
   const router = useRouter();
+
+  // ---------HANDLE FUNCTIONS---------
   const handleTweetDetails = () => {
     router.push(`/status/${tweetId}`);
   };
@@ -41,11 +44,26 @@ export default function Tweet({
       setDelected(true);
     });
   };
+
+  // -------USE EFFECT----------------
   useEffect(() => {
     getUserById(userId).then(setUser);
   }, []);
 
-  if (deleted) return <DeletedMessage />;
+  if (deleted)
+    return (
+      <>
+        <div>
+          <Message type={"INFORMATION"} content={"tweet eliminado"} />
+        </div>
+        <style jsx>{`
+          div {
+            width: 100%;
+            height: 150px;
+          }
+        `}</style>
+      </>
+    );
   return (
     <>
       <article key={tweetId}>
@@ -55,6 +73,7 @@ export default function Tweet({
             alt={user?.username}
             displayName={user?.displayName}
             onClick={goToUserProfile}
+            userName={user?.userName}
           />
           {!principal && (
             <Link href={`/status/${tweetId}`}>
@@ -84,7 +103,7 @@ export default function Tweet({
           )}
         </section>
       </article>
-      {createComend && <AddComent tweetId={tweetId} />}
+      {principal && <AddComent tweetId={tweetId} />}
       <style jsx>{`
         .content {
           font-size: ${principal ? "22px" : "15px"};
@@ -121,7 +140,7 @@ export default function Tweet({
           font-weight: 600;
         }
         article {
-          margin-bottom: 25px;
+          margin-bottom: 50px;
           width: 100%;
           padding: 10px 15px;
           display: flex;

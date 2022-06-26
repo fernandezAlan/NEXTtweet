@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   updateProfile,
+  TwitterAuthProvider,
 } from "firebase/auth";
 import { getUserActivity } from "./query/userActivityQuery";
 import { getUserInformation } from "./query/userInformationQuery";
@@ -16,7 +17,7 @@ import { getUserInformation } from "./query/userInformationQuery";
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
 export const facebookProvider = new FacebookAuthProvider();
-
+export const twitterProvider = new TwitterAuthProvider();
 // ------AUTH OBJECT---------- //
 export const auth = getAuth(app);
 
@@ -39,10 +40,10 @@ export const signOut = () => {
 
 const mapUserFromFirebaseAuth = (user) => {
   const { photoURL, uid, displayName } = user;
-  const username = user.reloadUserInfo.screenName;
+  const userName = user.reloadUserInfo.screenName;
   return {
     avatar: photoURL,
-    username,
+    userName,
     uid,
     displayName,
   };

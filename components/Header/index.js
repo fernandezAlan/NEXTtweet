@@ -3,14 +3,10 @@ import { colors, breakpoints } from "../../styles/theme";
 import { useRouter } from "next/router";
 import Avatar from "../Avatar";
 import useUser from "../../hooks/useUser";
-import { useEffect } from "react";
 import SearchInput from "../searchInput";
 export default function Header({ title, search, handleSearch }) {
   const { user } = useUser();
 
-  useEffect(() => {
-    console.log("user", user);
-  }, [user]);
   const router = useRouter();
   const goBack = () => {
     router.back();
@@ -52,11 +48,9 @@ export default function Header({ title, search, handleSearch }) {
         }
         div {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
         }
-        div:first-child {
-          margin: 5px 20px;
-        }
+
         header {
           padding: 10px;
           background-color: #fff;

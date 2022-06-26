@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import ErrorMessage from "../ErrorMessage/index";
 import { addNewUser } from "../../services/user";
+
+// se usa el mismo formulario para registro y login, con distinta lógica para cada uno.
 export default function Form({ submitFunction, type }) {
   // ----ENUM CONFIG-------
   const BUTTON_SIZE = {
@@ -58,13 +60,11 @@ export default function Form({ submitFunction, type }) {
             currentUserId: result.user.uid,
           });
         }
-        console.log("result_new user", result);
         setError(false);
         setloading(false);
         router.push(NEXT_PAGE[type]);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(() => {
         setError(true);
         setloading(false);
       });

@@ -14,15 +14,15 @@ import { useState, useEffect } from "react";
 import Spinner from "../../../components/Spinner";
 import SharedLabel from "../../../components/SharedLabel";
 import TweetNotFound from "../../../components/TweetNotFound";
+import Message from "../../../components/Message";
 export default function Profile({ tweets, user }) {
-  console.log("tweets", tweets);
   const { user: currentUser } = useUser();
-  const sameUser = user.id === currentUser?.uid;
-  const followState = user.followers.find(
+  const sameUser = user?.id === currentUser?.uid;
+  const followState = user?.followers.find(
     (userId) => userId === currentUser?.uid
   );
   const [loading, setLoading] = useState(true);
-  const [followsCount, setFollowsCount] = useState(user?.followsCount);
+  const [followsCount] = useState(user?.followsCount);
   const [followersCount, setFollowersCount] = useState(user?.followersCount);
 
   const handleFollowerCount = (type) => {
@@ -40,7 +40,7 @@ export default function Profile({ tweets, user }) {
   useEffect(() => {
     if (currentUser) setLoading(false);
   }, [currentUser]);
-
+  if (!user) return <Message type={"ERROR"} content={"el usuario no existe"} />;
   if (loading)
     return (
       <>
@@ -104,19 +104,22 @@ export default function Profile({ tweets, user }) {
                     currentUserId={currentUser?.uid}
                   />
                 )}
-                {tw.error ? <TweetNotFound message={tw.error}/>: <Tweet
-                  key={tw.id}
-                  message={tw.content}
-                  tweetId={tw.id}
-                  date={tw.createdAt}
-                  downloadImageURL={tw.downloadImageURL}
-                  originalUserId={tw.originalUserId}
-                  userId={tw.userId}
-                  comentCounts={tw.comentCounts}
-                  likeCounts={tw.likeCounts}
-                  shareCounts={tw.shareCounts}
-                />}
-                
+                {tw.error ? (
+                  <TweetNotFound message={tw.error} />
+                ) : (
+                  <Tweet
+                    key={tw.id}
+                    message={tw.content}
+                    tweetId={tw.id}
+                    date={tw.createdAt}
+                    downloadImageURL={tw.downloadImageURL}
+                    originalUserId={tw.originalUserId}
+                    userId={tw.userId}
+                    comentCounts={tw.comentCounts}
+                    likeCounts={tw.likeCounts}
+                    shareCounts={tw.shareCounts}
+                  />
+                )}
               </>
             );
           })}
@@ -143,11 +146,12 @@ export default function Profile({ tweets, user }) {
         }
         nav > span {
           color: ${colors.black};
-          margin: 15px;
         }
         nav {
-          border-top: solid ${colors.gray} 1px;
-          padding: 20px;
+          border-bottom: solid rgb(83, 100, 113) 1px;
+          padding: 10px 20px;
+          display: flex;
+          margin-bottom: 30px;
         }
         @media (max-width: ${breakpoints.mobile}) {
           .avatar_container {
@@ -163,7 +167,10 @@ export async function getServerSideProps(context) {
   const { params } = context;
   const { userId } = params;
   const tweets = await getTweetsByUserId(userId);
-  const user = await getUserById(userId);
+  let user = null;
+  try {
+    user = await getUserById(userId);
+  } catch (error) {}
   const props = {
     tweets,
     user,

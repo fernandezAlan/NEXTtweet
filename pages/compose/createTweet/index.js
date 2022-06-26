@@ -2,7 +2,7 @@ import Button from "../../../components/Button";
 import { useState, useEffect } from "react";
 import useUser from "../../../hooks/useUser";
 import Avatar from "../../../components/Avatar";
-import { addTweet, uploadImage } from "../../../firebase/client/client";
+import { uploadImage } from "../../../firebase/client/client";
 import { useRouter } from "next/dist/client/router";
 import { colors } from "../../../styles/theme";
 import { createNewTweet } from "../../../services/tweets";
@@ -40,6 +40,7 @@ export default function createTweet() {
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
+
   const handleSubmit = async (event) => {
     setStatus(COMPOSE_STATE.LOADING);
     setError(false);
@@ -61,12 +62,15 @@ export default function createTweet() {
         setError(COMPOSE_STATE.ERROR);
       });
   };
+
   const handleDragOver = () => {
     setDrag(DRAG_IMAGE_STATE.DRAG_OVER);
   };
+
   const handleDragLeave = () => {
     setDrag(DRAG_IMAGE_STATE.NONE);
   };
+
   const handleDrop = (e) => {
     e.preventDefault();
     setDrag(DRAG_IMAGE_STATE.NONE);
@@ -79,13 +83,14 @@ export default function createTweet() {
     });
     fileReader.readAsDataURL(file);
   };
+
   const handleDeleteImgUrl = () => {
     setImgURL(null);
     if (message.length === 0 || status === COMPOSE_STATE.LOADING) {
       setDisableButton(true);
     }
   };
-
+  // -----------USE EFFECT--------------
   useEffect(() => {
     if (
       imgURL === null &&

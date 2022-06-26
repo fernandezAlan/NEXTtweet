@@ -24,6 +24,11 @@ export default function DeleteIcon({ onClick }) {
           <path d="m9.5 5.5v8" />
         </g>
       </svg>
+      <style jsx>{`
+        svg {
+          cursor: pointer;
+        }
+      `}</style>
     </>
   );
 }

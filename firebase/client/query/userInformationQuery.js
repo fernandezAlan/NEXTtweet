@@ -12,7 +12,9 @@ const userInfoRef = collection(db, "userInformation");
 export const getUserInformation = async ({ userId }) => {
   const q = query(userInfoRef, where(documentId(), "==", userId));
   const document = await getDocs(q);
-  const userInformation = document.docs[0].data();
-  userInformation.id = userId;
-  return userInformation;
+  if (document.docs[0]) {
+    const userInformation = document.docs[0].data();
+    userInformation.id = userId;
+    return userInformation;
+  } else return null;
 };

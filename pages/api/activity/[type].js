@@ -9,7 +9,6 @@ export default (req, res) => {
       return res.status(403).send({ message: "missing authorization header" });
     }
     const token = req.headers.authorization.split(" ")[1];
-
     verifyIdToken(token).then((currentUserId) => {
       addUserActivity({
         tweetId,
