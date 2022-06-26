@@ -1,7 +1,7 @@
 import Tweet from "../../../../components/Tweet";
 import ArrowLeftIcon from "../../../../components/Icon/ArrowLeftIcon";
 import { breakpoints } from "../../../../styles/theme";
-
+import { getTweetsById } from "../../../../firebase/admin/querys/tweetsQuerys";
 export default function SelectedTweet(props) {
   return (
     <>
@@ -49,11 +49,6 @@ export default function SelectedTweet(props) {
 export async function getServerSideProps(context) {
   const { params } = context;
   const { tweetId } = params;
-  const apiResponse = await fetch(
-    `http://localhost:3000/api/tweets/${tweetId}`
-  );
-  if (apiResponse.ok) {
-    const props = await apiResponse.json();
-    return { props };
-  }
+  const props = await getTweetsById(tweetId);
+  return { props };
 }
