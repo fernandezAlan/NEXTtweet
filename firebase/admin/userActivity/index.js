@@ -24,11 +24,14 @@ export const addUserActivity = async ({
   targetUserId,
   typeActivity,
 }) => {
+  console.log("init addUserActivity");
   const doc = await userActRef.doc(currentUserId).get();
+  console.log("get the document for currentUserId");
   const userActivity = doc.data();
   const userId = `user-id-${targetUserId}`;
 
   if (userActivity[userId]) {
+    console.log("into to if");
     switch (typeActivity) {
       case "follow": {
         const path = `${userId}.followStatus`;
@@ -42,6 +45,7 @@ export const addUserActivity = async ({
         }
         break;
       case "like": {
+        console.log("if-like");
         const tweets = userActivity[userId].tweets;
         const path = `${userId}.tweets`;
         const findedTweet = tweets.find((tw) => tw.tweetId === tweetId);
@@ -60,10 +64,12 @@ export const addUserActivity = async ({
           };
           tweets.push(newTweet);
         }
+        console.log("if-start to update likeCount");
         await userActRef.doc(currentUserId).update({ [path]: tweets });
         await tweetRef
           .doc(tweetId)
           .update({ likeCounts: FieldValue.increment(1) });
+        console.log("if-finish to update likeCount");
         break;
       }
       case "dislike": {
@@ -114,6 +120,7 @@ export const addUserActivity = async ({
         break;
       }
       case "share": {
+        console.log("if share");
         const tweets = userActivity[userId].tweets;
         const path = `${userId}.tweets`;
         const findedTweet = tweets.find((tw) => tw.tweetId === tweetId);
@@ -132,10 +139,12 @@ export const addUserActivity = async ({
           };
           tweets.push(newTweet);
         }
+        console.log("if-start to update share count");
         await userActRef.doc(currentUserId).update({ [path]: tweets });
         await tweetRef
           .doc(tweetId)
           .update({ shareCounts: FieldValue.increment(1) });
+        console.log("if-finish to update share count");
         break;
       }
       case "unShare": {
@@ -156,6 +165,7 @@ export const addUserActivity = async ({
         break;
     }
   } else {
+    console.log("into else");
     const data = {
       followStatus: false,
       tweets: [],
@@ -172,9 +182,11 @@ export const addUserActivity = async ({
         break;
       case "like":
         tweetData.likeStatus = true;
+        console.log("else-start to update likecount");
         await tweetRef
           .doc(tweetId)
           .update({ likeCounts: FieldValue.increment(1) });
+        console.log("finish-start to update likecount");
         break;
       case "coment":
         tweetData.comentStatus = true;
@@ -189,6 +201,7 @@ export const addUserActivity = async ({
         break;
     }
     data.tweets.push(tweetData);
+    console.log("else-start to update userData");
     userActRef.doc(currentUserId).set({ [userId]: data }, { merge: true });
   }
 };
