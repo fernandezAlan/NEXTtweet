@@ -75,7 +75,6 @@ export const getOwnTweets = async (userId) => {
 };
 
 export const getTweetById = async ({ tweetId }) => {
-  console.log("tweetid", tweetId);
   const q = query(TweetsRefs, where(documentId(), "==", tweetId));
   const data = await getDocs(q);
   return data.docs.map((doc) => {
@@ -83,7 +82,6 @@ export const getTweetById = async ({ tweetId }) => {
     const { createdAt } = data;
     data.createdAt = createdAt.toMillis();
     const id = doc.id;
-    console.log("data", data);
     return {
       ...data,
       id,

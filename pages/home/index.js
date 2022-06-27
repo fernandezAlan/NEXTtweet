@@ -27,7 +27,7 @@ export default function HomePage() {
           } else if (process.env.NODE_ENV === "production") {
             getTweetById({ tweetId: "hZPDy6CyyXqUh1W9UOaH" }).then(
               (welcomeMessage) => {
-                setTimeline([welcomeMessage]);
+                setTimeline(welcomeMessage);
               }
             );
           }
@@ -37,9 +37,6 @@ export default function HomePage() {
       router.push("/edit/profile");
     }
   }, [user]);
-  useEffect(() => {
-    console.log("timeline", timeline);
-  }, [timeline]);
 
   return (
     <>

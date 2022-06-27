@@ -4,3 +4,4 @@ firebase/firebase-keys.json
 firebase/firebase-keys-prod.json
 firebase/firebase-keys-dev.json
 .env.local
+.env.productio.local

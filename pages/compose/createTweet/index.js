@@ -43,6 +43,7 @@ export default function createTweet() {
 
   const handleSubmit = async (event) => {
     setStatus(COMPOSE_STATE.LOADING);
+    setDisableButton(true);
     setError(false);
     event.preventDefault();
     let downloadImageURL = null;
@@ -55,6 +56,7 @@ export default function createTweet() {
     })
       .then(() => {
         setStatus(COMPOSE_STATE.SUCCESS);
+        setDisableButton(false);
         router.push("/home");
       })
       .catch((err) => {

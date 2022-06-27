@@ -62,6 +62,7 @@ const getUnitAndValueDate = (secondsElapsed) => {
 };
 
 export const getTimeAgo = (timestamp) => {
+  if (!timestamp) return null;
   // creamos una instancia de RelativeTimeFormat para traducir en castellano
   const rtf = new Intl.RelativeTimeFormat("es");
   // recuperamos el número de segundos de diferencia entre la fecha que pasamos
