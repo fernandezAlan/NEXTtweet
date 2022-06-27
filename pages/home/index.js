@@ -37,6 +37,9 @@ export default function HomePage() {
       router.push("/edit/profile");
     }
   }, [user]);
+  useEffect(() => {
+    console.log("timeline", timeline);
+  }, [timeline]);
 
   return (
     <>
