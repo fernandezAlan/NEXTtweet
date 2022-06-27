@@ -25,9 +25,11 @@ export default function HomePage() {
           if (tweets.length) {
             setTimeline(tweets);
           } else if (process.env.NODE_ENV === "production") {
-            getTweetById("hZPDy6CyyXqUh1W9UOaH").then((welcomeMessage) => {
-              setTimeline([welcomeMessage]);
-            });
+            getTweetById({ tweetId: "hZPDy6CyyXqUh1W9UOaH" }).then(
+              (welcomeMessage) => {
+                setTimeline([welcomeMessage]);
+              }
+            );
           }
         }
       );
