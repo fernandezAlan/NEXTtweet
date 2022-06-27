@@ -9,8 +9,12 @@ const userActRef = firestore.collection("userActivity");
 const tweetRef = firestore.collection("tweets");
 
 // cuando se registra el usuario se crea un "userActivity" para ese usuario
-export const createUserActivity = ({ currentUserId }) => {
-  return userActRef.doc(currentUserId).set({ createdAccount: Timestamp.now() });
+export const createUserActivity = async({ currentUserId }) => {
+  const doc = await userActRef.doc(currentUserId).get()
+  if(!doc.exists){
+    return userActRef.doc(currentUserId).set({ createdAccount: Timestamp.now() });
+  }
+  else return null
 };
 
 export const addUserActivity = async ({
