@@ -119,6 +119,7 @@ export default function AddComent({ tweetId }) {
           display: flex;
           flex-direction: column;
           align-items: center;
+          margin-bottom: 60px;
         }
       `}</style>
     </section>
