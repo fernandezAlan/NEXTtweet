@@ -36,7 +36,7 @@ export const getUserById = (userId) => {
             const data = await response.json();
 
             resolve(data);
-          } else reject(new Error("server error"));
+          }
         })
         .catch((error) => reject(error));
     }
