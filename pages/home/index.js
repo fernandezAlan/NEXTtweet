@@ -4,7 +4,10 @@ import { breakpoints } from "../../styles/theme";
 import useUser from "../../hooks/useUser";
 import Avatar from "../../components/Avatar";
 import { useRouter } from "next/router";
-import { getFollowedUsersTweets } from "../../firebase/client/query/tweetsQuerys";
+import {
+  getFollowedUsersTweets,
+  getTweetById,
+} from "../../firebase/client/query/tweetsQuerys";
 import SharedLabel from "../../components/SharedLabel";
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
@@ -18,7 +21,15 @@ export default function HomePage() {
       const followedUsersId = user.userInformation.follows;
       const currentUserId = user.uid;
       getFollowedUsersTweets({ followedUsersId, currentUserId }).then(
-        setTimeline
+        (tweets) => {
+          if (tweets.length) {
+            setTimeline(tweets);
+          } else if (process.env.NODE_ENV === "production") {
+            getTweetById("hZPDy6CyyXqUh1W9UOaH").then((welcomeMessage) => {
+              setTimeline([welcomeMessage]);
+            });
+          }
+        }
       );
     } else if (user?.userInformation === null) {
       router.push("/edit/profile");
