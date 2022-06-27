@@ -10,7 +10,7 @@ import Spinner from "../Spinner/index";
 import Tweet from "../Tweet/index";
 import ErrorMessage from "../ErrorMessage";
 import { useRouter } from "next/router";
-export default function AddComent({ tweetId }) {
+export default function AddComent({ tweetId, comentCounts }) {
   // ------ENUM-------------------------
   const STATUS = {
     LOADING: 0,
@@ -119,7 +119,7 @@ export default function AddComent({ tweetId }) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin-bottom: 60px;
+          margin-bottom: ${comentCounts > 0 ? "0px" : "60px"};
         }
       `}</style>
     </section>

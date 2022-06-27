@@ -103,7 +103,7 @@ export default function Tweet({
           )}
         </section>
       </article>
-      {principal && <AddComent tweetId={tweetId} />}
+      {principal && <AddComent tweetId={tweetId} comentCounts={comentCounts}/>}
       <style jsx>{`
         .content {
           font-size: ${principal ? "22px" : "15px"};
@@ -140,7 +140,7 @@ export default function Tweet({
           font-weight: 600;
         }
         article {
-          margin-bottom: 50px;
+          margin-bottom: ${principal ? "0px" : "50px"};
           width: 100%;
           padding: 10px 15px;
           display: flex;

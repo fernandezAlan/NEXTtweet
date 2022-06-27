@@ -39,7 +39,7 @@ export default css`
   }
   @media (max-width: ${breakpoints.mobile}) {
     main {
-      height: 90vh;
+      height: 100%;
       width: 100%;
     }
   }
