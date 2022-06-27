@@ -24,11 +24,8 @@ export const addUserActivity = async ({
   targetUserId,
   typeActivity,
 }) => {
-  console.log("addUserActivity");
   const doc = await userActRef.doc(currentUserId).get();
-  console.log("addUserActivity_doc", doc);
   const userActivity = doc.data();
-  console.log("addUserActivity_userActivity", userActivity);
   const userId = `user-id-${targetUserId}`;
 
   if (userActivity[userId]) {
@@ -178,7 +175,6 @@ export const addUserActivity = async ({
         await tweetRef
           .doc(tweetId)
           .update({ likeCounts: FieldValue.increment(1) });
-        console.log("finish update tweet");
         break;
       case "coment":
         tweetData.comentStatus = true;
@@ -194,6 +190,5 @@ export const addUserActivity = async ({
     }
     data.tweets.push(tweetData);
     userActRef.doc(currentUserId).set({ [userId]: data }, { merge: true });
-    console.log("finish userActivity function");
   }
 };

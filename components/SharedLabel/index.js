@@ -12,7 +12,7 @@ export default function SharedLabel({ userId, currentUserId }) {
       <div>
         <ShareIcon fill={colors.gray} />
         {userId === currentUserId ? (
-          <span>compartiste</span>
+          <span>compartisté</span>
         ) : (
           <span>{`${user?.displayName} compartió`}</span>
         )}
