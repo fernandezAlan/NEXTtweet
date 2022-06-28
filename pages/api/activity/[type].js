@@ -15,8 +15,9 @@ export default (req, res) => {
         currentUserId,
         typeActivity: type,
         targetUserId,
+      }).then(() => {
+        res.status(201).send("OK");
       });
-      res.status(201).send("OK");
     });
   });
 };
