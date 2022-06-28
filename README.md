@@ -15,7 +15,7 @@ La aplicación cuenta con funcionalidades básicas acerca de lo que puede hacer 
   ## Demo
    Puedes probar un demo de esta aplicación visitando [che-tuiter.vercel.app](https://che-tuiter.vercel.app/) 
 
-  ## instalación
+  ## Instalación
    Antes de instalar los módulos necesarios y ejecutar cualquier script debes tener una cuenta en Firebase y colocar todos las llaves de acceso y configuración de tu proyecto de Firebase (tanto de cliente como administrador) en un archivo .env y no tiene que ser público.\
    para mas información acerca de las variables de ambiente en Next.js puedes visitar [nextjs.org/docs/basic-features/environment-variables](https://nextjs.org/docs/basic-features/environment-variables).\
    Una vez clonado el proyecto y con el archivo .env con la configuración necesaria puedes ejecutar los siguientes scripts:
@@ -34,7 +34,7 @@ npm run build : compila todo el proyecto y tenerlo listo para producción
  ```bash
 npm start : inicia el proyecto en modo producción
 ```
-## capturas
+## Capturas
 ![](/public/screenshot_login.JPG).\
 ![](/public/screenshot_home.JPG).\
 ![](/public/screenshot_profile.JPG)
